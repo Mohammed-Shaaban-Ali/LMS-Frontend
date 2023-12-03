@@ -48,24 +48,23 @@ const NavItems: FC<Props> = ({ activeItem, isMobile }) => {
             </Link>
           ))}
       </div>
+      {/* mobile */}
       {isMobile && (
-        <div className="800px:hidden mt-5">
-          <div className="w-full text-center py-6">
-            {navItemData &&
-              navItemData.map((item, index) => (
-                <Link href={`${item.url}`} key={index}>
-                  <span
-                    className={`${
-                      activeItem === index
-                        ? "dark:text-[#37a39a] text-[crimson]"
-                        : "dark:text-white text-black"
-                    } text-[18px] px-6 font-Poppins font-[400]`}
-                  >
-                    {item.name}
-                  </span>
-                </Link>
-              ))}
-          </div>
+        <div className="800px:hidden mb-5 flex flex-col gap-8 mt-16">
+          {navItemData &&
+            navItemData.map((item, index) => (
+              <Link href={`${item.url}`} key={index}>
+                <span
+                  className={`${
+                    activeItem === index
+                      ? "dark:text-[#37a39a] text-[crimson]"
+                      : "dark:text-white text-black"
+                  } text-[18px] px-6 font-Poppins font-[400]`}
+                >
+                  {item.name}
+                </span>
+              </Link>
+            ))}
         </div>
       )}
     </>
