@@ -1,26 +1,26 @@
 import Image from "next/image";
-import React from "react";
-import { BiSearch } from "react-icons/bi";
+import React, { lazy } from "react";
 import HeroImage from "../../public/Image/banner-img-1.png";
 
 const Hero = () => {
   return (
-    <section className="w-full lg:flex h-[100vh] items-center gap-60 lg:container lg:mx-auto">
+    <section className="w-full lg:flex min-h-[100vh] items-center gap-60 lg:container lg:mx-auto px-2 mb-8">
       {/* Left */}
       <div className="top-[100px] lg:top-[unset] mt-10 mb-14 lg:w-[600px] lg:h-[600px] h-[50vh] rounded-[50%] hero-animation z-[-1] flex items-center justify-center">
         <Image
           src={HeroImage}
           alt="Hero"
+          loading="lazy"
           className="object-contain  w-[70%] lg:max-w-[75%] h-auto z-10"
         />
       </div>
 
       {/* Right */}
-      <div className="lg:max-w-[35%] flex flex-col items-start  gap-8  text-black dark:text-white ">
-        <h2 className="text-[50px] font-bold leading-[48px] font-sans tracking-wider">
+      <div className="lg:max-w-[35%] flex flex-col items-start gap-4 lg:gap-8  text-black dark:text-white ">
+        <h2 className=" text-[28px] lg:text-[48px] font-bold leading-[48px] font-sans tracking-wider">
           Improve Your Online Learning Experience Better Instantly
         </h2>
-        <p className="font-semibold font-sans ">
+        <p className="lg:text-lg text-sm font-semibold font-[system-ui] ">
           We have 40k+ online courses & 500k online registered student. Find
           your desired Courses from them
         </p>
@@ -51,32 +51,34 @@ const Hero = () => {
           </span>
         </div>
         <div className=" flex items-center justify-center gap-x-4">
-          <div className="hidden sm:block -space-x-2 overflow-hidden">
+          <div className=" -space-x-2 overflow-hidden">
             <Image
-              className="inline-block h-8 w-8  rounded-full ring-2 ring-white"
+              className="inline-block h-6 w-6 lg:h-8 lg:w-8  rounded-full ring-2 ring-white"
               src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
               alt="avatar"
               width={32}
               height={32}
             />
             <Image
-              className="inline-block h-8 w-8  rounded-full ring-2 ring-white"
+              className="inline-block  h-6 w-6 lg:h-8 lg:w-8  rounded-full ring-2 ring-white"
               src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
               alt="avatar"
               width={32}
               height={32}
             />
             <Image
-              className="inline-block h-8 w-8 rounded-full ring-2 ring-white"
+              className="inline-block  h-6 w-6 lg:h-8 lg:w-8 rounded-full ring-2 ring-white"
               src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.25&w=256&h=256&q=80"
               alt="avatar"
               width={32}
               height={32}
             />
           </div>
-          <p className="font-semibold text-sm font-sans  ">
+          <p className="font-semibold text-[10px] lg:text-sm font-sans  ">
             500K+ Pepole already trusted us.
-            <span className="text-[#04ca88] text-[16px]">View Courses</span>
+            <span className="text-[#04ca88] text-[12px] lg:text-[16px]">
+              View Courses
+            </span>
           </p>
         </div>
       </div>
