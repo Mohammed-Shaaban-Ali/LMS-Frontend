@@ -26,11 +26,11 @@ const Header: FC<Props> = ({ activeItem, setOpen }) => {
     if (e.target.id === "screen") setOpenSidbar(false);
   };
   return (
-    <div className="w-full relative">
+    <div className="w-full relative container mx-auto">
       <div
         className={`${
           avtive
-            ? "dark:bg-opacity-50-50 dark:bg-gradient-to-b w-full border-b  dark:border-[#ffffff1c] dark:from-gray-900 dark:to-black fixed top-0 left-0  z-[80]  shadow-xl duration-500"
+            ? "dark:bg-opacity-50 dark:bg-gradient-to-b w-full border-b  dark:border-[#ffffff1c] dark:from-gray-900 dark:to-black fixed top-0 left-0  z-[80]  shadow-xl duration-500"
             : " h-[80px] z-[80] dark:shadow w-full border-b  dark:border-[#ffffff1c]"
         } `}
       >
