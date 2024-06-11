@@ -76,7 +76,7 @@ const Hero = () => {
           </div>
           <p className="font-semibold text-[10px] lg:text-sm font-sans  ">
             500K+ Pepole already trusted us.
-            <span className="text-[#04ca88] text-[12px] lg:text-[16px]">
+            <span className="text-[#04ca88] text-[12px] lg:text-[16px] ml-1">
               View Courses
             </span>
           </p>
