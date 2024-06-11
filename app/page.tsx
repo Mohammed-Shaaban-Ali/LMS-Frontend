@@ -2,6 +2,7 @@
 import { FC, useState } from "react";
 import Heading from "./utils/Heading";
 import Header from "./components/Header";
+import Hero from "./Route/Hero";
 interface Props {}
 
 const Page: FC<Props> = (props) => {
@@ -15,6 +16,7 @@ const Page: FC<Props> = (props) => {
         description="Transform your learning experience with our state-of-the-art Learning Management System. Explore a variety of courses, interactive modules, and advanced features designed to enhance education and training. Join today for a seamless and effective online learning journey."
       />
       <Header open={open} setOpen={setOpen} activeItem={activeItem} />
+      <Hero />
     </div>
   );
 };
