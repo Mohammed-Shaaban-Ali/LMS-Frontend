@@ -3,6 +3,9 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { FcGoogle } from "react-icons/fc";
 import { AiFillGithub } from "react-icons/ai";
+import { useRegisterMutation } from "@/app/redux/features/auth/authApi";
+import { useEffect } from "react";
+import toast from "react-hot-toast";
 
 type Props = { setRoute: (route: string) => void };
 
@@ -18,6 +21,25 @@ const validationSchema = Yup.object({
 });
 
 function SignUp({ setRoute }: Props) {
+  const [register, { isLoading, isSuccess, error, data }] =
+    useRegisterMutation();
+
+  useEffect(() => {
+    console.log(isLoading);
+    if (isSuccess) {
+      const message = data?.message || "Registration successful";
+      toast.success(message);
+      setRoute("Verification");
+    }
+    if (error) {
+      if ("data" in error) {
+        const errorData = error as any;
+        console.log({ errorData });
+        toast.error(errorData.data?.mesage);
+      }
+    }
+  }, [isSuccess, error]);
+
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -26,7 +48,12 @@ function SignUp({ setRoute }: Props) {
     },
     validationSchema,
     onSubmit: async ({ email, userName, password }) => {
-      setRoute("Verification");
+      const data = {
+        userName,
+        email,
+        password,
+      };
+      await register(data);
     },
   });
 
@@ -99,10 +126,11 @@ function SignUp({ setRoute }: Props) {
         </div>
 
         <button
+          disabled={isLoading}
           type="submit"
           className="mt-6 inline-flex items-center justify-center w-full px-8 py-4 text-base font-bold leading-6 text-white bg-indigo-600 border border-transparent rounded-full hover:bg-indigo-500"
         >
-          Sign Up
+          {isLoading ? "Loading...." : "Sign Up"}
         </button>
       </form>
 
