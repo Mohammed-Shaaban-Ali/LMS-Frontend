@@ -6,9 +6,9 @@ import Hero from "./Route/Hero";
 interface Props {}
 
 const Page: FC<Props> = (props) => {
-  const [open, setOpen] = useState(false);
-  const [activeItem, setActiveItem] = useState(0);
-  const [route, setRoute] = useState("Login");
+  const [open, setOpen] = useState<boolean>(false);
+  const [activeItem, setActiveItem] = useState<number>(0);
+  const [route, setRoute] = useState<string>("Login");
 
   return (
     <div>

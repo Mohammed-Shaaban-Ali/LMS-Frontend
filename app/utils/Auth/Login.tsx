@@ -92,7 +92,7 @@ function Login({ setRoute }: Props) {
           />
           <AiFillGithub
             width={40}
-            className="cursor-pointer opacity-70 hover:opacity-100 transition"
+            className="cursor-pointer opacity-70 hover:opacity-100 transition fill-black dark:fill-white"
           />
         </div>
       </div>
