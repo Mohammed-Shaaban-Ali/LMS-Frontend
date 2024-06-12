@@ -4,14 +4,20 @@ import { HiOutlineMenuAlt3, HiOutlineUserCircle } from "react-icons/hi";
 
 import NavItems from "./NavItems";
 import ThemeSwitcher from "./ThemeSwitcher";
+import CustomModel from "../utils/CustomModel";
+import Login from "../utils/Auth/Login";
+import SingUp from "../utils/Auth/SingUp";
+import Verification from "../utils/Auth/Verification";
 
 type Props = {
   open: boolean;
   setOpen: (open: boolean) => void;
   activeItem: number;
+  route: string;
+  setRoute: (route: string) => void;
 };
 
-const Header: FC<Props> = ({ activeItem, setOpen }) => {
+const Header: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
   const [avtive, setAvtive] = useState(false);
   const [openSidbar, setOpenSidbar] = useState(false);
 
@@ -82,6 +88,46 @@ const Header: FC<Props> = ({ activeItem, setOpen }) => {
           </div>
         )}
       </div>
+
+      {route === "Login" && (
+        <>
+          {open && (
+            <CustomModel
+              open={open}
+              setOpen={setOpen}
+              setRoute={setRoute}
+              activeItem={activeItem}
+              Component={Login}
+            />
+          )}
+        </>
+      )}
+      {route === "Sing-Up" && (
+        <>
+          {open && (
+            <CustomModel
+              open={open}
+              setOpen={setOpen}
+              setRoute={setRoute}
+              activeItem={activeItem}
+              Component={SingUp}
+            />
+          )}
+        </>
+      )}
+      {route === "Verification" && (
+        <>
+          {open && (
+            <CustomModel
+              open={open}
+              setOpen={setOpen}
+              setRoute={setRoute}
+              activeItem={activeItem}
+              Component={Verification}
+            />
+          )}
+        </>
+      )}
     </div>
   );
 };
