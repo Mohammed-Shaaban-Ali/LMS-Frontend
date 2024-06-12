@@ -31,8 +31,8 @@ const notFound = (props: Props) => {
           We can`t find that page.{" "}
           <Link
             href="/"
-            className="inline-block rounded border border-green-400 bg-green-400 px-3 py-1 text-sm 
-          font-medium text-white hover:bg-transparent hover:text-green-400 focus:outline-none focus:ring "
+            className="inline-block rounded border border-[#ff5678] bg-[#ff5678] px-3 py-1 text-sm 
+          font-medium text-white hover:bg-transparent hover:text-[#ff5678] focus:outline-none focus:ring "
           >
             Home Page
           </Link>
