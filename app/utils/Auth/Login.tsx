@@ -3,6 +3,9 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { FcGoogle } from "react-icons/fc";
 import { AiFillGithub } from "react-icons/ai";
+import { useLoginMutation } from "@/app/redux/features/auth/authApi";
+import { useEffect } from "react";
+import toast from "react-hot-toast";
 
 type Props = { setRoute: (route: string) => void };
 
@@ -24,11 +27,28 @@ function Login({ setRoute }: Props) {
     },
     validationSchema,
     onSubmit: async ({ email, password }) => {
-      console.log(email, password);
+      const data = { email, password };
+      await login(data);
     },
   });
-
   const { errors, touched, values, handleChange, handleSubmit } = formik;
+
+  const [login, { isLoading, isSuccess, error, data }] = useLoginMutation();
+
+  useEffect(() => {
+    if (isSuccess) {
+      const message = data?.message || "Login successful";
+      toast.success(message);
+      setRoute("");
+    }
+    if (error) {
+      if ("data" in error) {
+        const errorData = error as any;
+        console.log({ errorData });
+        toast.error(errorData.data?.mesage);
+      }
+    }
+  }, [isSuccess, error]);
 
   return (
     <div className="w-full">
@@ -74,10 +94,11 @@ function Login({ setRoute }: Props) {
         </div>
 
         <button
+          disabled={isLoading}
           type="submit"
           className="mt-6 inline-flex items-center justify-center w-full px-8 py-4 text-base font-bold leading-6 text-white bg-indigo-600 border border-transparent rounded-full hover:bg-indigo-500"
         >
-          Login
+          {isLoading ? "Loading..." : "Login"}
         </button>
       </form>
       {/* social login */}

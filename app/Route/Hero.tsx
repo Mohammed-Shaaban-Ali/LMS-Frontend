@@ -10,7 +10,8 @@ const Hero = () => {
         <Image
           src={HeroImage}
           alt="Hero"
-          loading="lazy"
+          // loading="lazy"
+          priority
           className="object-contain  w-[70%] lg:max-w-[75%] h-auto z-10"
         />
       </div>
@@ -58,6 +59,7 @@ const Hero = () => {
               alt="avatar"
               width={32}
               height={32}
+              priority
             />
             <Image
               className="inline-block  h-6 w-6 lg:h-8 lg:w-8  rounded-full ring-2 ring-white dark:ring-slate-800"
@@ -65,6 +67,7 @@ const Hero = () => {
               alt="avatar"
               width={32}
               height={32}
+              priority
             />
             <Image
               className="inline-block  h-6 w-6 lg:h-8 lg:w-8 rounded-full ring-2 ring-white dark:ring-slate-800"
@@ -72,6 +75,7 @@ const Hero = () => {
               alt="avatar"
               width={32}
               height={32}
+              priority
             />
           </div>
           <p className="font-semibold text-[10px] lg:text-sm font-sans  ">

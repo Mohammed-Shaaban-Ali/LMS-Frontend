@@ -25,7 +25,6 @@ function SignUp({ setRoute }: Props) {
     useRegisterMutation();
 
   useEffect(() => {
-    console.log(isLoading);
     if (isSuccess) {
       const message = data?.message || "Registration successful";
       toast.success(message);
