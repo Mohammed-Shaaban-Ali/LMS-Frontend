@@ -1,6 +1,9 @@
 "use client";
-import { useState, useRef, ChangeEvent } from "react";
+import { useActivationMutation } from "@/app/redux/features/auth/authApi";
+import { useState, useRef, useEffect } from "react";
+import toast from "react-hot-toast";
 import { VscWorkspaceTrusted } from "react-icons/vsc";
+import { useSelector } from "react-redux";
 
 type Props = { setRoute: (route: string) => void };
 
@@ -12,6 +15,32 @@ type VerifyNumber = {
 };
 
 const Verification: React.FC<Props> = ({ setRoute }) => {
+  const { token } = useSelector((state: any) => state.auth);
+
+  const [activation, { isLoading, isSuccess, error, data }] =
+    useActivationMutation();
+
+  useEffect(() => {
+    if (isSuccess) {
+      const message = data?.message || "vervifaction successful";
+      toast.success(message);
+      setRoute("Login");
+    }
+    if (error) {
+      if ("data" in error) {
+        const errorData = error as any;
+        setInvalidError(true);
+        toast.error(errorData.data?.mesage);
+        setVerifyNumber({
+          "0": "",
+          "1": "",
+          "2": "",
+          "3": "",
+        });
+      }
+    }
+  }, [isSuccess, error]);
+
   const [invalidError, setInvalidError] = useState<boolean>(false);
   const [verifyNumber, setVerifyNumber] = useState<VerifyNumber>({
     "0": "",
@@ -23,7 +52,18 @@ const Verification: React.FC<Props> = ({ setRoute }) => {
   const inputRefs = useRef<HTMLInputElement[]>([]);
 
   const verifcationHandler = async () => {
-    setInvalidError(true);
+    function objectToNumber(obj: { [key: number]: string }): number {
+      const valuesArray = Object.values(obj);
+      const concatenatedString = valuesArray.join("");
+      const resultNumber = Number(concatenatedString);
+      return resultNumber;
+    }
+    const OTP = objectToNumber(verifyNumber);
+
+    if (OTP.toString().length === 4) {
+      const data = { activation_code: OTP, activation_token: token };
+      await activation(data);
+    }
   };
 
   const handleInputChange = (index: number, value: string) => {
@@ -70,10 +110,11 @@ const Verification: React.FC<Props> = ({ setRoute }) => {
       </div>
       <br />
       <button
+      disabled={isLoading}
         onClick={verifcationHandler}
         className="mt-2 inline-flex items-center justify-center w-full px-8 py-4 text-base font-bold leading-6 text-white bg-indigo-600 border border-transparent rounded-full hover:bg-indigo-500"
       >
-        Verify OTP
+        {isLoading ? "Lpading..." : " Verify OTP"}
       </button>
       <div className="mt-6">
         <h5 className="text-center pt-4 font-Poppins text-[14px] text-black dark:text-white">
