@@ -49,7 +49,7 @@ function SignUp({ setRoute }: Props) {
     validationSchema,
     onSubmit: async ({ email, userName, password }) => {
       const data = {
-        userName,
+        name: userName,
         email,
         password,
       };
