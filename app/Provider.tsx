@@ -1,5 +1,5 @@
+import { store } from "@/redux/store";
 import { Provider } from "react-redux";
-import { store } from "./redux/store";
 
 type Props = {
   children: any;

@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { userLogin } from "../features/auth/authSlice";
 export const apiSlice = createApi({
   reducerPath: "pokemonApi",
-  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:9000/api/" }),
+  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:8000/api/" }),
   endpoints: (builder) => ({
     refrechToken: builder.query({
       query: (data) => ({
