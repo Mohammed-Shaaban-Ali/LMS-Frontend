@@ -1,4 +1,6 @@
-import React, { FC, useState } from "react";
+"use client";
+
+import React, { FC, useEffect, useState } from "react";
 import Link from "next/link";
 import { HiOutlineMenuAlt3, HiOutlineUserCircle } from "react-icons/hi";
 
@@ -8,6 +10,11 @@ import CustomModel from "../utils/CustomModel";
 import Login from "../utils/Auth/Login";
 import SingUp from "../utils/Auth/SingUp";
 import Verification from "../utils/Auth/Verification";
+import { useSelector } from "react-redux";
+import Image from "next/image";
+import { useSession } from "next-auth/react";
+import { useSocilatLoginMutation } from "@/redux/features/auth/authApi";
+import { redirect } from "next/navigation";
 
 type Props = {
   open: boolean;
@@ -20,17 +27,33 @@ type Props = {
 const Header: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
   const [avtive, setAvtive] = useState(false);
   const [openSidbar, setOpenSidbar] = useState(false);
+  const { user } = useSelector((state: any) => state.auth);
 
+  const { data } = useSession();
+  const [socilatLogin] = useSocilatLoginMutation();
+
+  useEffect(() => {
+    if (!user) {
+      if (data) {
+        const sendData = {
+          email: data.user?.email,
+          name: data.user?.name,
+          avatar: data.user?.image,
+        };
+        socilatLogin(sendData);
+      }
+    }
+  }, [data, user]);
   if (typeof window !== "undefined") {
     window.addEventListener("scroll", () => {
       if (window.scrollY > 85) setAvtive(true);
       else setAvtive(false);
     });
   }
-
   const handelClose = (e: any) => {
     if (e.target.id === "screen") setOpenSidbar(false);
   };
+
   return (
     <div className="w-full relative container mx-auto">
       <div
@@ -62,11 +85,30 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
                 />
               </div>
               {/*End only for mobile */}
-              <HiOutlineUserCircle
-                className="cursor-pointer dark:text-white text-black hidden 800px:block"
-                size={25}
-                onClick={() => setOpen(true)}
-              />
+              {user ? (
+                <>
+                  <Image
+                    onClick={() => redirect("/profile")}
+                    src={
+                      user.avatar
+                        ? user.avatar
+                        : data?.user
+                        ? data.user.image
+                        : "https://thumbs.dreamstime.com/b/default-avatar-profile-trendy-style-social-media-user-icon-187599373.jpg"
+                    }
+                    width={32}
+                    height={32}
+                    className="rounded-full cursor-pointer"
+                    alt="user photo"
+                  />
+                </>
+              ) : (
+                <HiOutlineUserCircle
+                  className="cursor-pointer dark:text-white text-black hidden 800px:block"
+                  size={25}
+                  onClick={() => setOpen(true)}
+                />
+              )}
             </div>
           </div>
         </div>

@@ -3,9 +3,9 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { FcGoogle } from "react-icons/fc";
 import { AiFillGithub } from "react-icons/ai";
-import { useRegisterMutation } from "@/app/redux/features/auth/authApi";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
+import { useRegisterMutation } from "@/redux/features/auth/authApi";
 
 type Props = { setRoute: (route: string) => void };
 

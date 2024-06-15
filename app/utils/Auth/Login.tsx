@@ -3,9 +3,10 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { FcGoogle } from "react-icons/fc";
 import { AiFillGithub } from "react-icons/ai";
-import { useLoginMutation } from "@/app/redux/features/auth/authApi";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
+import { signIn } from "next-auth/react";
+import { useLoginMutation } from "@/redux/features/auth/authApi";
 
 type Props = { setRoute: (route: string) => void };
 
@@ -108,10 +109,12 @@ function Login({ setRoute }: Props) {
         </h5>
         <div className="flex items-center justify-center gap-4 mt-3 text-3xl ">
           <FcGoogle
+            onClick={() => signIn("google")}
             width={60}
             className="cursor-pointer opacity-70 hover:opacity-100 transition"
           />
           <AiFillGithub
+            onClick={() => signIn("github")}
             width={40}
             className="cursor-pointer opacity-70 hover:opacity-100 transition fill-black dark:fill-white"
           />

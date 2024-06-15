@@ -1,5 +1,5 @@
 "use client";
-import { useActivationMutation } from "@/app/redux/features/auth/authApi";
+import { useActivationMutation } from "@/redux/features/auth/authApi";
 import { useState, useRef, useEffect } from "react";
 import toast from "react-hot-toast";
 import { VscWorkspaceTrusted } from "react-icons/vsc";
@@ -110,7 +110,7 @@ const Verification: React.FC<Props> = ({ setRoute }) => {
       </div>
       <br />
       <button
-      disabled={isLoading}
+        disabled={isLoading}
         onClick={verifcationHandler}
         className="mt-2 inline-flex items-center justify-center w-full px-8 py-4 text-base font-bold leading-6 text-white bg-indigo-600 border border-transparent rounded-full hover:bg-indigo-500"
       >
