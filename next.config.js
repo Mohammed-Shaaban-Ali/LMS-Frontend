@@ -7,6 +7,7 @@ const nextConfig = {
       "www.svgrepo.com",
       "thumbs.dreamstime.com",
       "lh3.googleusercontent.com",
+      "avatars.githubusercontent.com",
     ], // Add any other domains you need here
   },
 };
