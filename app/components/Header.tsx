@@ -1,4 +1,6 @@
-import React, { FC, use, useEffect, useState } from "react";
+"use client";
+
+import React, { FC, useEffect, useState } from "react";
 import Link from "next/link";
 import { HiOutlineMenuAlt3, HiOutlineUserCircle } from "react-icons/hi";
 
@@ -12,6 +14,7 @@ import { useSelector } from "react-redux";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
 import { useSocilatLoginMutation } from "@/redux/features/auth/authApi";
+import { redirect } from "next/navigation";
 
 type Props = {
   open: boolean;
@@ -27,7 +30,7 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
   const { user } = useSelector((state: any) => state.auth);
 
   const { data } = useSession();
-  const [socilatLogin, { isSuccess }] = useSocilatLoginMutation();
+  const [socilatLogin] = useSocilatLoginMutation();
 
   useEffect(() => {
     if (!user) {
@@ -85,6 +88,7 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
               {user ? (
                 <>
                   <Image
+                    onClick={() => redirect("/profile")}
                     src={
                       user.avatar
                         ? user.avatar
