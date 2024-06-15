@@ -4,17 +4,17 @@ import React, { FC, useEffect, useState } from "react";
 import Link from "next/link";
 import { HiOutlineMenuAlt3, HiOutlineUserCircle } from "react-icons/hi";
 
-import NavItems from "./NavItems";
-import ThemeSwitcher from "./ThemeSwitcher";
+import ThemeSwitcher from "../utils/ThemeSwitcher";
 import CustomModel from "../utils/CustomModel";
-import Login from "../utils/Auth/Login";
-import SingUp from "../utils/Auth/SingUp";
-import Verification from "../utils/Auth/Verification";
+import Login from "./Auth/Login";
+import SingUp from "./Auth/SingUp";
+import Verification from "./Auth/Verification";
 import { useSelector } from "react-redux";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
 import { useSocilatLoginMutation } from "@/redux/features/auth/authApi";
 import { redirect } from "next/navigation";
+import NavItems from "../utils/NavItems";
 
 type Props = {
   open: boolean;
