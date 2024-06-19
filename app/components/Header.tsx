@@ -12,7 +12,10 @@ import Verification from "./Auth/Verification";
 import { useSelector } from "react-redux";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
-import { useSocilatLoginMutation } from "@/redux/features/auth/authApi";
+import {
+  useLogoutQuery,
+  useSocilatLoginMutation,
+} from "@/redux/features/auth/authApi";
 import { redirect } from "next/navigation";
 import NavItems from "../utils/NavItems";
 
@@ -27,11 +30,14 @@ type Props = {
 const Header: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
   const [avtive, setAvtive] = useState(false);
   const [openSidbar, setOpenSidbar] = useState(false);
+  const [logout, setLogout] = useState<boolean>(false);
+
   const { user } = useSelector((state: any) => state.auth);
 
   const { data } = useSession();
   const [socilatLogin] = useSocilatLoginMutation();
 
+  const {} = useLogoutQuery(undefined, { skip: !logout ? true : false });
   useEffect(() => {
     if (!user) {
       if (data) {
@@ -42,6 +48,10 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
         };
         socilatLogin(sendData);
       }
+    }
+
+    if (data === null && !user) {
+      setLogout(true);
     }
   }, [data, user]);
   if (typeof window !== "undefined") {
@@ -71,7 +81,7 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
                 href={"/"}
                 className={`text-[25px] font-Poppins font-[500] text-black dark:text-white`}
               >
-                ELearning
+                <h1>ELearning</h1>
               </Link>
             </div>
             <div className="flex items-center">
