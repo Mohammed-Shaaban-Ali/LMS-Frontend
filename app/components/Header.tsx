@@ -96,9 +96,8 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
               </div>
               {/*End only for mobile */}
               {user ? (
-                <>
+                <Link href={"/profile"}>
                   <Image
-                    onClick={() => redirect("/profile")}
                     src={
                       user.avatar
                         ? user.avatar
@@ -111,7 +110,7 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
                     className="rounded-full cursor-pointer"
                     alt="user photo"
                   />
-                </>
+                </Link>
               ) : (
                 <HiOutlineUserCircle
                   className="cursor-pointer dark:text-white text-black hidden 800px:block"
