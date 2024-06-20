@@ -1,6 +1,8 @@
 "use client";
+import { useLoadUserQuery } from "@/redux/api/apiSlice";
+import { useUpdateAvatarMutation } from "@/redux/features/user/userApi";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 type Props = {
   user: any;
@@ -9,16 +11,32 @@ type Props = {
 
 function ProfileInfo({ avatar, user }: Props) {
   const [name, setName] = useState<string>(user ? user.name : "");
-  const [image, setImage] = useState<File | null>(null);
-  console.log(image);
+  const [loaduser, setloaduser] = useState<boolean>(false);
+
+  const {}=useLoadUserQuery(undefined,{skip:loaduser?false:true});
+
+const [updateAvatar,{isSuccess,error,isLoading}]=useUpdateAvatarMutation()
   const handleImageChange = (e: any) => {
-    if (e.target.files && e.target.files.length > 0) {
-      setImage(e.target.files[0]);
+    const fileReader=new FileReader();
+    fileReader.onload=()=>{
+        if(fileReader.readyState==2){
+            const avatar=fileReader.result||""
+            updateAvatar(avatar)
+        }
     }
+    fileReader.readAsDataURL(e.target.files[0])
   };
+
+  useEffect(() => {
+    
+    if(isSuccess){
+        setloaduser(true);
+    }
+    
+  }, [isSuccess]);
   const UpdateImage = (
     <div className="mx-auto flex justify-center  rounded-full bg-cover bg-center bg-no-repeat">
-      <div className="text-center ml-28 mt-4 relative">
+      <div className="text-center mt-4 relative">
         <Image
           src={
             user?.avatar || avatar
@@ -28,7 +46,8 @@ function ProfileInfo({ avatar, user }: Props) {
           alt="Avatar"
           width={120}
           height={120}
-          className=" 800px:w-[120px] 800px:h-[120px] rounded-full border-[3xp] border-[#37a39a] "
+          priority
+          className=" 800px:w-[120px] 800px:h-[120px] rounded-full object-contain border border-green-500"
         />
         <input
           type="file"
@@ -43,7 +62,9 @@ function ProfileInfo({ avatar, user }: Props) {
           className="cursor-pointer absolute rounded-full bottom-1  p-1 right-1 bg-slate-200 dark:bg-slate-500"
           htmlFor="avatar"
         >
-          <svg
+         {isLoading?
+         <div className="border-gray-300 w-5 h-5 animate-spin rounded-full border-2 border-t-green-600"></div>
+         : <svg
             data-slot="icon"
             className="w-6 h-5 dark:text-white text-black"
             fill="none"
@@ -63,7 +84,7 @@ function ProfileInfo({ avatar, user }: Props) {
               strokeLinejoin="round"
               d="M16.5 12.75a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0ZM18.75 10.5h.008v.008h-.008V10.5Z"
             />
-          </svg>
+          </svg>}
         </label>
       </div>
     </div>

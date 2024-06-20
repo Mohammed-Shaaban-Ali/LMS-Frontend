@@ -8,6 +8,7 @@ const nextConfig = {
       "thumbs.dreamstime.com",
       "lh3.googleusercontent.com",
       "avatars.githubusercontent.com",
+      "res.cloudinary.com"
     ], // Add any other domains you need here
   },
 };

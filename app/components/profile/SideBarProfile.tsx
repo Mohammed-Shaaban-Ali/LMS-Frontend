@@ -23,7 +23,7 @@ function SideBarProfile({ user, active, setActive, avatar, logout }: Props) {
         <Image
           src={
             user?.avatar || avatar
-              ? user.avatar || avatar
+              ? user.avatar.url || avatar
               : "https://thumbs.dreamstime.com/b/default-avatar-profile-trendy-style-social-media-user-icon-187599373.jpg"
           }
           alt="Avatar"

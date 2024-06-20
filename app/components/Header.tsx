@@ -100,7 +100,7 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
                   <Image
                     src={
                       user.avatar
-                        ? user.avatar
+                        ? user.avatar.url
                         : data?.user
                         ? data.user.image
                         : "https://thumbs.dreamstime.com/b/default-avatar-profile-trendy-style-social-media-user-icon-187599373.jpg"
