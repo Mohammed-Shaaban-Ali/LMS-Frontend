@@ -4,12 +4,14 @@ import SideBarProfile from "./SideBarProfile";
 import { useLogoutQuery } from "@/redux/features/auth/authApi";
 import { signOut } from "next-auth/react";
 import ProfileInfo from "./ProfileInfo";
+import ChangePassword from "./ChangePassword";
 
 type Props = {
   user: any;
+  data:any
 };
 
-function Profile({ user }: Props) {
+function Profile({ user,data }: Props) {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const [scroll, setScroll] = useState<boolean>(false);
   const [active, setActive] = useState<number>(1);
@@ -43,11 +45,17 @@ function Profile({ user }: Props) {
           setActive={setActive}
           logout={handlerLogout}
           avatar={avatar}
+          data={data}
         />
       </div>
       {active === 1 && (
         <div className="w-full h-full bg-transparent mt-[80px] flex flex-col items-center justify-center">
-          <ProfileInfo avatar={avatar} user={user} />
+          <ProfileInfo data={data} avatar={avatar} user={user} />
+        </div>
+      )}
+      {active === 2 && (
+        <div className="w-full h-full bg-transparent mt-[80px] flex flex-col items-center justify-center">
+          <ChangePassword />
         </div>
       )}
     </div>

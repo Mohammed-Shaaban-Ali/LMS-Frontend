@@ -5,6 +5,7 @@ import Header from "../components/Header";
 import Protected from "../hooks/useProtected";
 import { useSelector } from "react-redux";
 import Profile from "../components/profile/Profile";
+import { useSession } from "next-auth/react";
 
 interface Props {}
 
@@ -13,6 +14,7 @@ const Page: FC<Props> = (props) => {
   const [activeItem, setActiveItem] = useState<number>(0);
   const [route, setRoute] = useState<string>("Login");
   const user = useSelector((state: any) => state.auth.user);
+  const { data } = useSession();
 
   return (
     <>
@@ -29,7 +31,7 @@ const Page: FC<Props> = (props) => {
           setRoute={setRoute}
           route={route}
         />
-        <Profile user={user} />
+        <Profile user={user} data={data}/>
       </Protected>
     </>
   );

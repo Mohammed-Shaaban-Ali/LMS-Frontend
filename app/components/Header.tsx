@@ -16,7 +16,6 @@ import {
   useLogoutQuery,
   useSocilatLoginMutation,
 } from "@/redux/features/auth/authApi";
-import { redirect } from "next/navigation";
 import NavItems from "../utils/NavItems";
 
 type Props = {
@@ -27,7 +26,7 @@ type Props = {
   setRoute: (route: string) => void;
 };
 
-const Header: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
+const Header: FC<Props> = ({ activeItem, setOpen, route, open, setRoute, }) => {
   const [avtive, setAvtive] = useState(false);
   const [openSidbar, setOpenSidbar] = useState(false);
   const [logout, setLogout] = useState<boolean>(false);
@@ -96,7 +95,7 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
               </div>
               {/*End only for mobile */}
               {user ? (
-                <Link href={"/profile"}>
+                <Link href={"/profile"} className="w-[28px] h-[28px] ">
                   <Image
                     src={
                       user.avatar
@@ -107,7 +106,7 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
                     }
                     width={32}
                     height={32}
-                    className="rounded-full cursor-pointer"
+                    className={` w-[28px] h-[28px] rounded-full cursor-pointer`}
                     alt="user photo"
                   />
                 </Link>
