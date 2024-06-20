@@ -1,14 +1,9 @@
 import { apiSlice } from "../../api/apiSlice";
 
-type RegisterationResponse = {
-  message: string;
-  activationToken: string;
-};
-type RegisterationData = {};
 
 export const userApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    updateAvatar: builder.mutation<RegisterationResponse, RegisterationData>({
+    updateAvatar: builder.mutation({
       query: (avatar) => ({
         url: "/update-user-avatar",
         method: "PUT",
@@ -16,10 +11,18 @@ export const userApi = apiSlice.injectEndpoints({
         credentials: "include" as const,
       }),
     }),
+    updateAuserInfo: builder.mutation({
+        query: (name) => ({
+          url: "/update-user-info",
+          method: "PUT",
+          body: {name},
+          credentials: "include" as const,
+        }),
+      }),
 
     
   }),
 });
 export const {
-useUpdateAvatarMutation
+useUpdateAvatarMutation,useUpdateAuserInfoMutation
 } = userApi;

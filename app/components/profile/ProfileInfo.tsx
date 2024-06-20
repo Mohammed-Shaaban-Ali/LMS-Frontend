@@ -1,8 +1,9 @@
 "use client";
 import { useLoadUserQuery } from "@/redux/api/apiSlice";
-import { useUpdateAvatarMutation } from "@/redux/features/user/userApi";
+import { useUpdateAuserInfoMutation, useUpdateAvatarMutation } from "@/redux/features/user/userApi";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 type Props = {
   user: any;
@@ -15,7 +16,9 @@ function ProfileInfo({ avatar, user }: Props) {
 
   const {}=useLoadUserQuery(undefined,{skip:loaduser?false:true});
 
-const [updateAvatar,{isSuccess,error,isLoading}]=useUpdateAvatarMutation()
+const [updateAvatar,{isSuccess,isLoading}]=useUpdateAvatarMutation()
+const [updateAuserInfo,{isSuccess:suUserInfo,isLoading:loUserInfo}]=useUpdateAuserInfoMutation()
+
   const handleImageChange = (e: any) => {
     const fileReader=new FileReader();
     fileReader.onload=()=>{
@@ -28,12 +31,19 @@ const [updateAvatar,{isSuccess,error,isLoading}]=useUpdateAvatarMutation()
   };
 
   useEffect(() => {
-    
-    if(isSuccess){
+    if(isSuccess||suUserInfo){
         setloaduser(true);
+            toast.success(`${isSuccess? "Update Avatar Success":"Update Name Success"}`)
+       
     }
+  }, [isSuccess,suUserInfo]);
+
+  const handelUpdateName=() => {
+    console.log("object");
+    updateAuserInfo(name)
     
-  }, [isSuccess]);
+  }
+
   const UpdateImage = (
     <div className="mx-auto flex justify-center  rounded-full bg-cover bg-center bg-no-repeat">
       <div className="text-center mt-4 relative">
@@ -51,7 +61,7 @@ const [updateAvatar,{isSuccess,error,isLoading}]=useUpdateAvatarMutation()
         />
         <input
           type="file"
-          name="profile"
+          name="avatarImage"
           id="avatar"
           hidden
           value={avatar}
@@ -121,12 +131,10 @@ const [updateAvatar,{isSuccess,error,isLoading}]=useUpdateAvatarMutation()
             />
           </div>
         </div>
-        <input
-          type="submit"
-          name="Send"
-          value="Update"
+        <button
+          onClick={()=>handelUpdateName()}
           className="px-6 my-4 py-2 min-w-[120px] text-center text-green-400 cursor-pointer border border-green-500 rounded hover:bg-green-500 hover:text-white active:bg-indigo-500 focus:outline-none focus:ring"
-        />
+        >Update</button>
       </form>
     </>
   );
