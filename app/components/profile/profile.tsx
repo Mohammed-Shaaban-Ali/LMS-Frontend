@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import SideBarProfile from "./SideBarProfile";
 import { useLogoutQuery } from "@/redux/features/auth/authApi";
 import { signOut } from "next-auth/react";
+import ProfileInfo from "./ProfileInfo";
 
 type Props = {
   user: any;
@@ -12,7 +13,7 @@ function Profile({ user }: Props) {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const [scroll, setScroll] = useState<boolean>(false);
   const [active, setActive] = useState<number>(1);
-  const [avatar, setAvatar] = useState<string | null>(null);
+  const [avatar, setAvatar] = useState<string>("");
 
   const [logout, setLogout] = useState<boolean>(false);
   const {} = useLogoutQuery(undefined, { skip: !logout ? true : false });
@@ -30,9 +31,9 @@ function Profile({ user }: Props) {
   }
 
   return (
-    <div className="w-[85%] relative container mx-auto">
+    <div className="w-[85%] flex gap-16 mx-auto">
       <div
-        className={` w-[60px] 800px:w-[310px] h-[450px] dark:bg-slate-500 bg-opacity-50   border  dark:border-[#ffffff1d] bg-white rounded-md  my-[80px] sticky shadow-sm left-[30px]  ${
+        className={` w-[60px] 800px:w-[280px] h-[350px] dark:bg-slate-700 bg-opacity-50   border  dark:border-[#ffffff1d] bg-white rounded-md  my-[80px] sticky shadow-sm left-[30px]  ${
           scroll ? "top-[120px]" : "top-[30px"
         } `}
       >
@@ -44,6 +45,11 @@ function Profile({ user }: Props) {
           avatar={avatar}
         />
       </div>
+      {active === 1 && (
+        <div className="w-full h-full bg-transparent mt-[80px] flex flex-col items-center justify-center">
+          <ProfileInfo avatar={avatar} user={user} />
+        </div>
+      )}
     </div>
   );
 }
