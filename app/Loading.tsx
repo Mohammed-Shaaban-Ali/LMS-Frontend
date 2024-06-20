@@ -1,6 +1,8 @@
-import React from "react";
+import React from 'react'
 
-const Loading: React.FC = () => {
+type Props = {}
+
+function Loading({}: Props) {
   return (
     <div className="w-full min-h-screen flex items-center justify-center">
       <div className="relative">
@@ -8,7 +10,7 @@ const Loading: React.FC = () => {
         <div className="absolute top-0 left-0 h-24 w-24 rounded-full border-t-8 border-b-8 border-blue-500 animate-spin"></div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Loading;
+export default Loading
