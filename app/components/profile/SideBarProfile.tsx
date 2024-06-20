@@ -9,9 +9,10 @@ type Props = {
   setActive: (active: number) => void;
   logout: () => void;
   avatar: string | null;
+  data:any;
 };
 
-function SideBarProfile({ user, active, setActive, avatar, logout }: Props) {
+function SideBarProfile({ user, active, setActive, avatar, logout,data }: Props) {
   return (
     <div className="w-full min-h-screen text-black dark:text-white font-semibold ">
       <div
@@ -22,8 +23,8 @@ function SideBarProfile({ user, active, setActive, avatar, logout }: Props) {
       >
         <Image
           src={
-            user?.avatar || avatar
-              ? user.avatar.url || avatar
+            user?.avatar || avatar ||data?.user
+              ? user?.avatar?.url || avatar||data?.user?.image
               : "https://thumbs.dreamstime.com/b/default-avatar-profile-trendy-style-social-media-user-icon-187599373.jpg"
           }
           alt="Avatar"
@@ -34,7 +35,8 @@ function SideBarProfile({ user, active, setActive, avatar, logout }: Props) {
         <h5 className="pl-2 800px:block hidden font-Poppins ">My Account</h5>
       </div>
 
-      <div
+      {!data&&
+      (<div
         className={`w-full items-center px-3 py-4 cursor-pointer flex ${
           active === 2 ? " bg-slate-200 dark:bg-slate-600" : "bg-transparent"
         }`}
@@ -44,7 +46,8 @@ function SideBarProfile({ user, active, setActive, avatar, logout }: Props) {
         <h5 className="pl-2 800px:block hidden font-Poppins ">
           Change Password
         </h5>
-      </div>
+      </div>)
+      }
 
       <div
         className={`w-full items-center px-3 py-4 cursor-pointer flex ${
