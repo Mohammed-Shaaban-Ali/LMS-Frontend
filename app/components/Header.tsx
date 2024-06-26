@@ -18,6 +18,8 @@ import {
 } from "@/redux/features/auth/authApi";
 import NavItems from "../utils/NavItems";
 
+import Avatar from "../../public/Image/avatar.webp";
+
 type Props = {
   open: boolean;
   setOpen: (open: boolean) => void;
@@ -26,7 +28,7 @@ type Props = {
   setRoute: (route: string) => void;
 };
 
-const Header: FC<Props> = ({ activeItem, setOpen, route, open, setRoute, }) => {
+const Header: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
   const [avtive, setAvtive] = useState(false);
   const [openSidbar, setOpenSidbar] = useState(false);
   const [logout, setLogout] = useState<boolean>(false);
@@ -78,7 +80,7 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, open, setRoute, }) => {
               {/* logo */}
               <Link
                 href={"/"}
-                className={`text-[25px] font-Poppins font-[500] text-black dark:text-white`}
+                className={`text-[25px] font-Poppins font-[500] text-black dark:text-white `}
               >
                 <h1>ELearning</h1>
               </Link>
@@ -102,11 +104,13 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, open, setRoute, }) => {
                         ? user.avatar.url
                         : data?.user
                         ? data.user.image
-                        : "https://thumbs.dreamstime.com/b/default-avatar-profile-trendy-style-social-media-user-icon-187599373.jpg"
+                        : Avatar
                     }
                     width={32}
                     height={32}
-                    className={` w-[28px] h-[28px] rounded-full cursor-pointer`}
+                    className={` w-[28px] h-[28px] rounded-full cursor-pointer ${
+                      activeItem ? "border border-green-500" : ""
+                    }`}
                     alt="user photo"
                   />
                 </Link>

@@ -2,6 +2,9 @@ import Image from "next/image";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { SiCoursera } from "react-icons/si";
 import { AiOutlineLogout } from "react-icons/ai";
+import { GrUserAdmin } from "react-icons/gr";
+import Link from "next/link";
+import Avatar from "../../../public/Image/avatar.webp";
 
 type Props = {
   user: any;
@@ -9,10 +12,17 @@ type Props = {
   setActive: (active: number) => void;
   logout: () => void;
   avatar: string | null;
-  data:any;
+  data: any;
 };
 
-function SideBarProfile({ user, active, setActive, avatar, logout,data }: Props) {
+function SideBarProfile({
+  user,
+  active,
+  setActive,
+  avatar,
+  logout,
+  data,
+}: Props) {
   return (
     <div className="w-full min-h-screen text-black dark:text-white font-semibold ">
       <div
@@ -23,9 +33,9 @@ function SideBarProfile({ user, active, setActive, avatar, logout,data }: Props)
       >
         <Image
           src={
-            user?.avatar || avatar ||data?.user
-              ? user?.avatar?.url || avatar||data?.user?.image
-              : "https://thumbs.dreamstime.com/b/default-avatar-profile-trendy-style-social-media-user-icon-187599373.jpg"
+            user?.avatar || avatar || data?.user
+              ? user?.avatar?.url || avatar || data?.user?.image
+              : Avatar
           }
           alt="Avatar"
           width={24}
@@ -35,19 +45,33 @@ function SideBarProfile({ user, active, setActive, avatar, logout,data }: Props)
         <h5 className="pl-2 800px:block hidden font-Poppins ">My Account</h5>
       </div>
 
-      {!data&&
-      (<div
-        className={`w-full items-center px-3 py-4 cursor-pointer flex ${
-          active === 2 ? " bg-slate-200 dark:bg-slate-600" : "bg-transparent"
-        }`}
-        onClick={() => setActive(2)}
-      >
-        <RiLockPasswordFill width={32} height={32} />
-        <h5 className="pl-2 800px:block hidden font-Poppins ">
-          Change Password
-        </h5>
-      </div>)
-      }
+      {!data && (
+        <div
+          className={`w-full items-center px-3 py-4 cursor-pointer flex ${
+            active === 2 ? " bg-slate-200 dark:bg-slate-600" : "bg-transparent"
+          }`}
+          onClick={() => setActive(2)}
+        >
+          <RiLockPasswordFill width={32} height={32} />
+          <h5 className="pl-2 800px:block hidden font-Poppins ">
+            Change Password
+          </h5>
+        </div>
+      )}
+
+      {user.role == "admin" && (
+        <Link
+          href={"/admin"}
+          className={`w-full items-center px-3 py-4 cursor-pointer flex ${
+            active === 3 ? " bg-slate-200 dark:bg-slate-600" : "bg-transparent"
+          }`}
+        >
+          <GrUserAdmin width={32} height={32} />
+          <h5 className="pl-2 800px:block hidden font-Poppins ">
+            Admin dashboard
+          </h5>
+        </Link>
+      )}
 
       <div
         className={`w-full items-center px-3 py-4 cursor-pointer flex ${
