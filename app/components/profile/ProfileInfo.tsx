@@ -7,14 +7,15 @@ import {
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import Avatar from "../../../public/Image/avatar.webp";
 
 type Props = {
   user: any;
   avatar: string;
-  data:any
+  data: any;
 };
 
-function ProfileInfo({ avatar, user,data }: Props) {
+function ProfileInfo({ avatar, user, data }: Props) {
   const [name, setName] = useState<string>(user ? user.name : "");
   const [loaduser, setloaduser] = useState<boolean>(false);
 
@@ -22,7 +23,7 @@ function ProfileInfo({ avatar, user,data }: Props) {
 
   const [updateAvatar, { isSuccess, isLoading }] = useUpdateAvatarMutation();
   const [updateAuserInfo, { isSuccess: suUserInfo, isLoading: loUserInfo }] =
-  useUpdateUserInfoMutation();
+    useUpdateUserInfoMutation();
 
   const handleImageChange = (e: any) => {
     const fileReader = new FileReader();
@@ -53,9 +54,9 @@ function ProfileInfo({ avatar, user,data }: Props) {
       <div className="text-center mt-4 relative">
         <Image
           src={
-            user?.avatar || avatar ||data?.user
-              ? user?.avatar?.url || avatar||data?.user?.image
-              : "https://thumbs.dreamstime.com/b/default-avatar-profile-trendy-style-social-media-user-icon-187599373.jpg"
+            user?.avatar || avatar || data?.user
+              ? user?.avatar?.url || avatar || data?.user?.image
+              : Avatar
           }
           alt="Avatar"
           width={120}

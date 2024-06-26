@@ -112,3 +112,29 @@ body {
   animation: shake 0.4s ease-in-out;
   -webkit-animation: shake 0.4s ease-in-out;
 }
+
+/* Customize the width of the scrollbar */
+::-webkit-scrollbar {
+  width: 12px; /* Width of the entire scrollbar */
+  height: 12px; /* Height of the scrollbar for horizontal scrolling */
+}
+
+/* Track */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f5f5f568; /* Color of the scrollbar track */
+  border-radius: 10px; /* Rounded corners */
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #3097f7af; /* Color of the scrollbar handle */
+  border-radius: 10px; /* Rounded corners */
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #32ae7e; /* Color when hovered */
+}

@@ -11,7 +11,7 @@ interface Props {}
 
 const Page: FC<Props> = (props) => {
   const [open, setOpen] = useState<boolean>(false);
-  const [activeItem, setActiveItem] = useState<number>(0);
+  const [activeItem, setActiveItem] = useState<number>(6);
   const [route, setRoute] = useState<string>("Login");
   const user = useSelector((state: any) => state.auth.user);
   const { data } = useSession();
