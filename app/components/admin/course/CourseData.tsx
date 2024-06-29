@@ -6,131 +6,134 @@ import NxteAndPrevButtons from "./NxteAndPrevButtons";
 type Props = {
   active: number;
   setActive: (active: number) => void;
-  benfites: any;
-  setBenfites: (benfite: any) => void;
-  prerequisites: any;
-  setPrerequisites: (prerequisite: any) => void;
+  benefits: Array<{ title: string }>;
+  setBenefits: (benfite: Array<{ title: string }>) => void;
+  prerequisites: Array<{ title: string }>;
+  setPrerequisites: (prerequisite: Array<{ title: string }>) => void;
 };
 
 function CourseData({
   active,
   setActive,
-  benfites,
-  setBenfites,
-  setPrerequisites,
+  benefits,
+  setBenefits,
   prerequisites,
+  setPrerequisites,
 }: Props) {
-  // Benfites
-  const handleBenfiteChange = (i: number, value: any) => {
-    const updateBenfites = [...benfites];
-    updateBenfites[i].title = value;
-    setBenfites(updateBenfites);
+  // Benefits Handlers
+  const handleBenefitChange = (i: number, value: string) => {
+    const updatedBenefits = [...benefits];
+    updatedBenefits[i].title = value;
+    setBenefits(updatedBenefits);
   };
-  const addBenfites = () => {
-    setBenfites([...benfites, { title: "" }]);
-  };
-  const removeBenfites = (index: number) => {
-    const newBenfites = benfites
-      .slice(0, index)
-      .concat(benfites.slice(index + 1));
-    setBenfites(newBenfites);
-  };
-  //   ----------------------------------------------------------------
 
-  //   rerequisites
-  const handlePrerequisiteChange = (i: number, value: any) => {
-    const updatePrerequisites = [...prerequisites];
-    updatePrerequisites[i].title = value;
-    setPrerequisites(updatePrerequisites);
+  const addBenefit = () => {
+    setBenefits([...benefits, { title: "" }]);
   };
-  const addPrerequisites = () => {
+
+  const removeBenefit = (index: number) => {
+    const newBenefits = [...benefits];
+    newBenefits.splice(index, 1);
+    setBenefits(newBenefits);
+  };
+
+  // Prerequisites Handlers
+  const handlePrerequisiteChange = (i: number, value: string) => {
+    const updatedPrerequisites = [...prerequisites];
+    updatedPrerequisites[i].title = value;
+    setPrerequisites(updatedPrerequisites);
+  };
+
+  const addPrerequisite = () => {
     setPrerequisites([...prerequisites, { title: "" }]);
   };
-  const removePrerequisites = (index: number) => {
-    const newPrerequisites = prerequisites
-      .slice(0, index)
-      .concat(prerequisites.slice(index + 1));
+
+  const removePrerequisite = (index: number) => {
+    const newPrerequisites = [...prerequisites];
+    newPrerequisites.splice(index, 1);
     setPrerequisites(newPrerequisites);
   };
-  //   ----------------------------------------------------------------
-  //   prevOptions
+
+  // Navigation Handlers
   const prevOptions = () => {
     setActive(active - 1);
   };
-  // nextOptions
+
   const nextOptions = () => {
     if (
-      benfites[benfites.length - 1]?.title !== "" &&
-      prerequisites[prerequisites.length - 1]?.title !== "" &&
-      benfites.length > 0 &&
+      benefits.every((b) => b.title) &&
+      prerequisites.every((p) => p.title) &&
+      benefits.length > 0 &&
       prerequisites.length > 0
-    )
+    ) {
       setActive(active + 1);
-    else toast.error("Plese fill the fieds for go to next");
+    } else {
+      toast.error("Please fill in all fields to proceed to the next step.");
+    }
   };
+
   return (
-    <div className="w-[80%] m-auto mt-24 block ">
+    <div className="w-[80%] m-auto mt-24">
       <div>
-        <label className=" lable text-[20px] ">
-          What are the benfites for students in this course
+        <label className="label text-[20px]">
+          What are the benefits for students in this course?
         </label>
         <br />
-        {benfites.map((benfite: any, i: number) => (
+        {benefits.map((benefit, i) => (
           <div key={i}>
             <input
               type="text"
-              name="Benfite"
+              name="Benefit"
               placeholder="You will be able to build a Full stack LMS platform ..."
               required
               className="input"
-              value={benfite.title}
-              onChange={(e) => handleBenfiteChange(i, e.target.value)}
+              value={benefit.title}
+              onChange={(e) => handleBenefitChange(i, e.target.value)}
             />
-            <div className=" flex justify-end mt-2">
+            <div className="flex justify-end mt-2">
               <Delete
-                onClick={() => removeBenfites(i)}
-                className=" text-red-400 cursor-pointer"
+                onClick={() => removeBenefit(i)}
+                className="text-red-400 cursor-pointer"
               />
             </div>
           </div>
         ))}
         <AddCircle
           style={{ margin: "10px 0", cursor: "pointer", width: "30px" }}
-          onClick={addBenfites}
+          onClick={addBenefit}
           className="text-black dark:text-white"
         />
       </div>
       <br />
-      
+
       <div>
-        <label className=" lable text-[20px] ">
-          What are the prerequisites for students in this course
+        <label className="label text-[20px]">
+          What are the prerequisites for students in this course?
         </label>
         <br />
-        {prerequisites.map((prerequisite: any, i: number) => (
+        {prerequisites.map((prerequisite, i) => (
           <div key={i}>
             <input
               type="text"
-              name="Benfite"
-              placeholder="You will be able to build a Full stack LMS platform ..."
+              name="Prerequisite"
+              placeholder="You should have basic knowledge of HTML, CSS, and JavaScript ..."
               required
-              className="input "
+              className="input"
               value={prerequisite.title}
-              onChange={(e: any) => handlePrerequisiteChange(i, e.target.value)}
+              onChange={(e) => handlePrerequisiteChange(i, e.target.value)}
             />
-            <div className=" flex justify-end mt-2">
+            <div className="flex justify-end mt-2">
               <Delete
-                onClick={() => removePrerequisites(i)}
-                className=" text-red-400 cursor-pointer"
+                onClick={() => removePrerequisite(i)}
+                className="text-red-400 cursor-pointer"
               />
             </div>
           </div>
         ))}
         <AddCircle
           style={{ margin: "10px 0", cursor: "pointer", width: "30px" }}
-          onClick={addPrerequisites}
+          onClick={addPrerequisite}
           className="text-black dark:text-white"
-
         />
       </div>
       <br />
