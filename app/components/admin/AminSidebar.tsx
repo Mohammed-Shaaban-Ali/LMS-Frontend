@@ -28,12 +28,12 @@ import { HiMenuAlt3 } from "react-icons/hi";
 const AminSidebar = () => {
   const { user } = useSelector((state: any) => state.auth);
   // const [logOut, setlogOut] = useState(false);
-  const [selected, setselected] = useState("dashboard");
+  const [selected, setselected] = useState<string | undefined>("dashboard");
 
   // const { theme, setTheme } = useTheme();
 
   const menus = [
-    { name: "dashboard", link: "/", icon: HomeOutlinedIcon },
+    { name: "dashboard", link: "/admin", icon: HomeOutlinedIcon },
     { title: "Data" },
     { name: "users", link: "/", icon: GroupsIcon },
     { name: "Invoices", link: "/", icon: ReceiptOutlinedIcon },
@@ -41,7 +41,7 @@ const AminSidebar = () => {
 
     {
       name: "Create Course",
-      link: "/",
+      link: "/admin/create-course",
       icon: VideoCallIcon,
     },
     {
@@ -57,7 +57,7 @@ const AminSidebar = () => {
     { title: "Controllers" },
     { name: "Manage Team", link: "/", icon: PeopleOutlinedIcon },
     { title: "Analytics" },
-    { name: "Courses Analytics", link: "/", icon: BarChartOutlinedIcon },
+    { name: "Courses Analytics", link: "/ ", icon: BarChartOutlinedIcon },
     { name: "Ordera Analytics", link: "/", icon: MapOutlinedIcon },
     { name: "Users Analytics", link: "/", icon: ManageHistoryIcon },
     { title: "Extras" },
@@ -68,7 +68,7 @@ const AminSidebar = () => {
   return (
     <section className="flex gap-6">
       <div
-        className={`dark:bg-[#111C43] bg-[#fff] min-h-screen ${
+        className={`dark:bg-[#111C43] bg-[#eeeeee5e] min-h-screen ${
           open ? "w-72" : "w-16"
         } duration-500  px-4 dark:text-white text-black`}
       >
@@ -80,12 +80,13 @@ const AminSidebar = () => {
           )}
           <HiMenuAlt3
             size={26}
-            className="cursor-pointer"
+            className="cursor-pointer w-8 h-8"
             onClick={() => setOpen(!open)}
           />
         </div>
         {open && (
-          <div className="flex justify-center items-center flex-col gap-4 dark:text-gray-200 text-black my-4">
+          <div className="flex font-semibold justify-center items-center flex-col gap-4 dark:text-gray-200 text-black my-4">
+
             <Image
               src={user?.avatar ? user.avatar.url : Avatar}
               alt="profile-user"
@@ -94,32 +95,36 @@ const AminSidebar = () => {
               className="w-32 h-32 object-contain cursor-pointer rounded-full border-[3px] border-[#5b6fe6]"
             />
             {/* text */}
-            <div className="flex justify-center items-center flex-col gap-2">
+            <div className="flex justify-center font-bold  items-center flex-col gap-2">
               <h4>{user?.name}</h4>
               <h6 className="text-[16px] capitalize mb-3">-{user?.role}</h6>
             </div>
           </div>
         )}
-        <div className={` ${open&&"px-4"} mt-4 flex flex-col gap-2 relative dark:text-gray-200 text-black `}>
+        <div
+          className={` ${
+            open && "px-4"
+          } mt-4 flex flex-col gap-2 relative dark:text-gray-200 text-black `}
+        >
           {menus?.map(({ icon, link, name, title }, i) => (
             <React.Fragment key={i}>
               {title ? (
-                open && (
-                  <h2 className="-mb-2 mt-2 font-bold -px-1">{title}</h2>
-                ) 
+                open && <h2 className="-mb-2 mt-2 font-bold -px-1">{title}</h2>
               ) : (
-                <div
-                  onClick={() => setselected(name)}
-                  className={`group flex flex-col items-start text-sm font-medium px-1 py-2 hover:bg-gray-600 rounded-md cursor-pointer ${
+                <Link
+                href={link ? link :"/"}
+                   onClick={() => setselected(name)}
+                  className={`group flex flex-col items-start text-sm font-medium px-1 py-2 hover:bg-gray-300 dark:hover:bg-gray-600 rounded-md cursor-pointer ${
                     name === selected && "text-[#5b6fe6]"
                   }`}
                 >
                   {open && title && <h5>{title}</h5>}
                   <div className="flex items-center text-sm gap-3 ">
-                    <div>{React.createElement(icon)}</div>
+                    {icon && <div>{React.createElement(icon)}</div>}
                     <h4
                       className={`whitespace-pre duration-500 ${
-                        !open && "opacity-0 translate-x-28 overflow-hidden uppercase"
+                        !open &&
+                        "opacity-0 translate-x-28 overflow-hidden uppercase"
                       }`}
                     >
                       {name}
@@ -132,7 +137,7 @@ const AminSidebar = () => {
                       {name}
                     </h4>
                   </div>
-                </div>
+                </Link>
               )}
             </React.Fragment>
           ))}
