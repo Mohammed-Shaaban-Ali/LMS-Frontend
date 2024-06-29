@@ -22,11 +22,11 @@ function NxteAndPrevButtons({ nextOptions, prevOptions }: Props) {
             xmlns="http://www.w3.org/2000/svg"
           >
             <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
               d="M10 19l-7-7m0 0l7-7m-7 7h18"
-            ></path>
+            />
           </svg>
         </span>
         <span className="relative">Prev</span>
@@ -46,11 +46,11 @@ function NxteAndPrevButtons({ nextOptions, prevOptions }: Props) {
             xmlns="http://www.w3.org/2000/svg"
           >
             <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
               d="M14 5l7 7m0 0l-7 7m7-7H3"
-            ></path>
+            />
           </svg>
         </span>
         <span className="relative">Next</span>
