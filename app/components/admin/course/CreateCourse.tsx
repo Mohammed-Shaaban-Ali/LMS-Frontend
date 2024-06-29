@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import CourseInformaton from "./CourseInformaton";
 import CourseOptions from "./CourseOptions";
+import CourseData from "./CourseData";
 
 type Props = {};
 
@@ -44,6 +45,16 @@ function CreateCourse({}: Props) {
             setActive={setActive}
             courseInfo={courseInfo}
             setCourseInfo={setCourseInfo}
+          />
+        )}
+        {active === 1 && (
+          <CourseData
+            active={active}
+            setActive={setActive}
+            benfites={benfites}
+            setBenfites={setBenfites}
+            prerequisites={prerequisites}
+            setPrerequisites={setPrerequisites}
           />
         )}
       </div>

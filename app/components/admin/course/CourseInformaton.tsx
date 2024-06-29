@@ -114,7 +114,7 @@ function CourseInformation({
           <div className="w-[50%]">
             <label className="label">Price</label>
             <input
-              type="text"
+              type="number"
               name="price"
               required
               value={courseInfo.price}
@@ -127,7 +127,7 @@ function CourseInformation({
           <div className="w-[50%]">
             <label className="label">Estimated Price</label>
             <input
-              type="text"
+              type="number"
               name="estimatedPrice"
               required
               value={courseInfo.estimatedPrice}
