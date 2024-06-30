@@ -1,16 +1,21 @@
 "use client";
+
 import React, { useState } from "react";
 import CourseInformation from "./CourseInformaton";
 import CourseOptions from "./CourseOptions";
 import CourseData from "./CourseData";
+import CourseContent from "./CourseContent";
+import { ContentSection, CourseInfo, Item } from "./types"; // Import types
 
+// Define the type for the props
 type Props = {};
 
-function CreateCourse({}: Props) {
-  const [active, setActive] = useState(0);
-  const [benefits, setBenefits] = useState([{ title: "" }]);
-  const [prerequisites, setPrerequisites] = useState([{ title: "" }]);
-  const [courseInfo, setCourseInfo] = useState({
+// Main functional component
+const CreateCourse: React.FC<Props> = () => {
+  const [active, setActive] = useState<number>(2);
+  const [benefits, setBenefits] = useState<Item[]>([{ title: "" }]);
+  const [prerequisites, setPrerequisites] = useState<Item[]>([{ title: "" }]);
+  const [courseInfo, setCourseInfo] = useState<CourseInfo>({
     name: "",
     description: "",
     price: "",
@@ -21,14 +26,18 @@ function CreateCourse({}: Props) {
     thumbnail: "",
   });
 
-  const [courseContentData, setCourseContentData] = useState({
+  const [courseContentData, setCourseContentData] = useState<ContentSection[]>([{
     videoUrl: "",
     title: "",
     videoSection: "Untitled Section",
     description: "",
     links: [{ title: "", url: "" }],
     suggestion: "",
-  });
+  }]);
+
+  const handleSubmit = () => {
+    // Handle form submission logic here
+  }
 
   return (
     <div className="w-full flex min-h-screen">
@@ -49,6 +58,15 @@ function CreateCourse({}: Props) {
             setBenefits={setBenefits}
             prerequisites={prerequisites}
             setPrerequisites={setPrerequisites}
+          />
+        )}
+        {active === 2 && (
+          <CourseContent
+            active={active}
+            setActive={setActive}
+            courseContentData={courseContentData}
+            setCourseContentData={setCourseContentData}
+            handleSubmit={handleSubmit}
           />
         )}
       </div>
