@@ -1,18 +1,23 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CourseInformation from "./CourseInformaton";
 import CourseOptions from "./CourseOptions";
 import CourseData from "./CourseData";
 import CourseContent from "./CourseContent";
 import { ContentSection, CourseInfo, Item } from "./types"; // Import types
 import CoursePrewview from "./CoursePrewview";
+import { useCreateCourseMutation } from "@/redux/features/course/CourseApi";
+import toast from "react-hot-toast";
+import { redirect } from "next/navigation";
 
 // Define the type for the props
 type Props = {};
 
 // Main functional component
 const CreateCourse: React.FC<Props> = () => {
+  const [createCourse, { isLoading, isSuccess, error }] =
+    useCreateCourseMutation();
   const [active, setActive] = useState<number>(0);
   const [benefits, setBenefits] = useState<Item[]>([{ title: "" }]);
   const [prerequisites, setPrerequisites] = useState<Item[]>([{ title: "" }]);
@@ -42,12 +47,12 @@ const CreateCourse: React.FC<Props> = () => {
   const handleSubmit = async () => {
     // format benfites array
     const formatBenfitesArray = benefits.map((benefit) => ({
-      title: benefit.title
+      title: benefit.title,
     }));
 
     // format prerequisites array
     const formatPrerequisitesArray = prerequisites.map((prereq) => ({
-      title: prereq.title
+      title: prereq.title,
     }));
 
     // format course content array
@@ -74,15 +79,31 @@ const CreateCourse: React.FC<Props> = () => {
       level: courseInfo.level,
       demoUrl: courseInfo.demoUrl,
       totalVideos: courseContentData.length,
-      benefits: formatBenfitesArray,
+      benfites: formatBenfitesArray,
       prerequisites: formatPrerequisitesArray,
-      courseContent: formatCourseContentArray,
+      courseData: formatCourseContentArray,
     };
     setFinalCourseData(data);
   };
-const handleCreateCourse=()=>{
+  
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success("Create Course Success");
+      redirect("/admin/all-courses");
+    }
+    if (error && "data" in error) {
+      const errorMesage = error as any;
+      toast.error(errorMesage);
+    }
+  }, [error, isSuccess]);
 
-}
+  const handleCreateCourse = async () => {
+    const data = finalCourseData;
+  
+    if (!isLoading) await createCourse(data);
+  };
+
+  
   return (
     <div className="w-full flex min-h-screen">
       <div className="w-[80%]">
