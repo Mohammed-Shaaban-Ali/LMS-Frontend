@@ -1,5 +1,5 @@
 "use client";
-import { AddCircle, Delete } from "@mui/icons-material";
+import { AddCircle, DeleteOutline } from "@mui/icons-material";
 import toast from "react-hot-toast";
 import NxteAndPrevButtons from "./NxteAndPrevButtons";
 
@@ -91,7 +91,7 @@ function CourseData({
               onChange={(e) => handleBenefitChange(i, e.target.value)}
             />
             <div className="flex justify-end mt-2">
-              <Delete
+              <DeleteOutline
                 onClick={() => removeBenefit(i)}
                 className="text-red-400 cursor-pointer"
               />
@@ -123,7 +123,7 @@ function CourseData({
               onChange={(e) => handlePrerequisiteChange(i, e.target.value)}
             />
             <div className="flex justify-end mt-2">
-              <Delete
+              <DeleteOutline
                 onClick={() => removePrerequisite(i)}
                 className="text-red-400 cursor-pointer"
               />
