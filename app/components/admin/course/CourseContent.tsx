@@ -7,6 +7,7 @@ import { MdOutlineArrowDropDown } from "react-icons/md";
 import { BsLink45Deg } from "react-icons/bs";
 import toast from "react-hot-toast";
 import { ContentSection, Link } from "./types"; // Import types
+import NxteAndPrevButtons from "./NxteAndPrevButtons";
 
 // Define the type for props
 interface Props {
@@ -70,7 +71,7 @@ const CourseContent: React.FC<Props> = ({
       return;
     }
 
-    let newVideoSection = "Untitled Section";
+    let newVideoSection = "";
     if (courseContentData.length > 0) {
       const lastVideoSection =
         courseContentData[courseContentData.length - 1].videoSection;
@@ -87,9 +88,53 @@ const CourseContent: React.FC<Props> = ({
     setCourseContentData([...courseContentData, newContent]);
   };
 
+  // Add new section
+  const handleAddSection = () => {
+    if (
+      courseContentData[courseContentData.length - 1].title === "" ||
+      courseContentData[courseContentData.length - 1].description === "" ||
+      courseContentData[courseContentData.length - 1].videoUrl === "" ||
+      courseContentData[courseContentData.length - 1].links[0].title === "" ||
+      courseContentData[courseContentData.length - 1].links[0].url === ""
+    ) {
+      toast.error("Please fill all the fields first!");
+      return;
+    } else {
+      setActiveSection(activeSection + 1);
+      const newContent: ContentSection = {
+        videoUrl: "",
+        title: "",
+        description: "",
+        videoSection: `Untitled Section ${activeSection}`,
+        links: [{ title: "", url: "" }],
+      };
+      setCourseContentData([...courseContentData, newContent]);
+    }
+  };
+
+  // prev and next buttons
+  const handlePrev = () => {
+    setActive(active - 1);
+  };
+  const handleNext = () => {
+    if (
+      courseContentData[courseContentData.length - 1].title === "" ||
+      courseContentData[courseContentData.length - 1].description === "" ||
+      courseContentData[courseContentData.length - 1].videoUrl === "" ||
+      courseContentData[courseContentData.length - 1].links[0].title === "" ||
+      courseContentData[courseContentData.length - 1].links[0].url === ""
+    ) {
+      toast.error("Please fill all the fields first!");
+      return;
+  }else{
+    setActive(active + 1);
+    handleSubmit()
+  }
+}
+
   // Render the form
   return (
-    <div className="w-[80%] m-auto mt-24 p-3">
+    <div className="w-[80%] m-auto mt-24 p-3 ">
       <form onSubmit={handleSubmitForm}>
         {courseContentData?.map((item: ContentSection, index: number) => {
           const showSectionInput =
@@ -132,7 +177,10 @@ const CourseContent: React.FC<Props> = ({
             </div>
           );
         })}
+        <AddNewSectionButton handleAddSection={() => handleAddSection()} />
       </form>
+      <br/>
+      <NxteAndPrevButtons nextOptions={handleNext} prevOptions={handlePrev} />
     </div>
   );
 };
@@ -385,12 +433,30 @@ interface AddNewContentButtonProps {
 const AddNewContentButton: React.FC<AddNewContentButtonProps> = ({
   handleNewContent,
 }) => (
-  <div>
+  <div  className="my-4 mt-6">
     <p
       className="flex items-center text-[18px] cursor-pointer"
       onClick={handleNewContent}
     >
       <AiOutlinePlusCircle className="mr-2" /> Add New Content
+    </p>
+  </div>
+);
+
+// Component to render the "Add New Section" button
+interface AddNewSectionButtonProps {
+  handleAddSection: () => void;
+}
+
+const AddNewSectionButton: React.FC<AddNewSectionButtonProps> = ({
+  handleAddSection,
+}) => (
+  <div className="mt-4 mb-8">
+    <p
+      className="flex items-center text-[20px] cursor-pointer mt-2"
+      onClick={handleAddSection}
+    >
+      <AiOutlinePlusCircle className="mr-2" /> Add New Section
     </p>
   </div>
 );

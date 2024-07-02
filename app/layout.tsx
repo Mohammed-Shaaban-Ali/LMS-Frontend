@@ -39,10 +39,6 @@ const Custom: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     return <Loading />;
   }
 
-  // if (error) {
-  //   return <div>Error fetching user data: {(error as { message: string }).message}</div>; // Type assertion
-  // }
-
   return children;
 };
 
