@@ -1,4 +1,3 @@
-// RootLayout.tsx
 "use client";
 
 import React from "react";
@@ -13,7 +12,12 @@ import { useLoadUserQuery } from "@/redux/api/apiSlice";
 const RootLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
     <html lang="en" suppressHydrationWarning={true}>
-      <head>{/* Head content goes here */}</head>
+      <head>
+        <title>Your App Title</title>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        {/* Add more meta tags and link tags as needed */}
+      </head>
       <body className="font-Poppins !bg-white bg-no-repeat dark:bg-gradient-to-b dark:from-gray-900 dark:to-black duration-300">
         <Providers>
           <SessionProvider>
@@ -31,7 +35,15 @@ const RootLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 const Custom: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { isLoading } = useLoadUserQuery({});
 
-  return <>{isLoading ? <Loading /> : children}</>;
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  // if (error) {
+  //   return <div>Error fetching user data: {(error as { message: string }).message}</div>; // Type assertion
+  // }
+
+  return children;
 };
 
 export default RootLayout;
