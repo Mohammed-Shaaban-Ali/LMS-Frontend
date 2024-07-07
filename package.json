@@ -13,6 +13,7 @@
     "@emotion/styled": "^11.11.5",
     "@mui/icons-material": "^5.15.19",
     "@mui/material": "^5.15.19",
+    "@mui/x-data-grid": "^7.9.0",
     "@reduxjs/toolkit": "^2.2.5",
     "axios": "^1.6.7",
     "formik": "^2.4.6",

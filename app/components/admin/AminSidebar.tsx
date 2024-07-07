@@ -46,7 +46,7 @@ const AminSidebar = () => {
     },
     {
       name: "Live Course",
-      link: "/",
+      link: "/admin/courses",
       icon: OndemandVideoIcon,
     },
     { title: "Customization" },

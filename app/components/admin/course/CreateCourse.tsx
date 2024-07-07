@@ -89,7 +89,7 @@ const CreateCourse: React.FC<Props> = () => {
   useEffect(() => {
     if (isSuccess) {
       toast.success("Create Course Success");
-      redirect("/admin/all-courses");
+      redirect("/admin/courses");
     }
     if (error && "data" in error) {
       const errorMesage = error as any;
