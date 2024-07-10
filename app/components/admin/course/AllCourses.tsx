@@ -7,11 +7,12 @@ import { DataGrid, GridColDef, GridRowsProp } from "@mui/x-data-grid";
 import { useTheme } from "next-themes";
 import { AiOutlineDelete } from "react-icons/ai";
 import { FiEdit2 } from "react-icons/fi";
+import { format } from "timeago.js";
 
 interface Course {
   _id: string;
   name: string;
-  purchased: number;
+  purchaseed: number;
   rating: number;
   createdAt: string;
 }
@@ -54,7 +55,7 @@ const AllCourses: React.FC = () => {
         title: item.name,
         purchased: item.purchaseed,
         ratings: item.rating,
-        createdAt: item.createdAt,
+        createdAt: format(item.createdAt),
       }))
     : [];
 
@@ -95,14 +96,15 @@ const AllCourses: React.FC = () => {
                 color: theme === "dark" ? "#fff" : "#000",
               },
               "& .MuiDataGrid-columnHeaders ": {
-                backgroundColor: theme === "dark" ? "#3e4396!important " : "#a4a9fc",
+                backgroundColor:
+                  theme === "dark" ? "#3e4396!important " : "#a4a9fc",
                 borderBottom: "none",
                 color: theme === "dark" ? "#fff" : "#000",
               },
               "& .MuiDataGrid-virtualScroller": {
                 backgroundColor: theme === "dark" ? "#1f2a40" : "#f2f0f0",
               },
-              
+
               "& .MuiDataGrid-footerContainer": {
                 backgroundColor: theme === "dark" ? "#3e4396" : "#a4a9fc",
                 borderTop: "none",
@@ -115,10 +117,13 @@ const AllCourses: React.FC = () => {
               "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
                 color: "#fff!important",
               },
-              ".css-14mxsc7-MuiDataGrid-root .MuiDataGrid-container--top [role=row], .css-14mxsc7-MuiDataGrid-root .MuiDataGrid-container--bottom [role=row]":{
-                backgroundColor: theme === "dark" ? "#3e4396!important " : "#a4a9fc",
-                borderBottom: "none",
-                color: theme === "dark" ? "#fff" : "#000",              }
+              ".css-14mxsc7-MuiDataGrid-root .MuiDataGrid-container--top [role=row], .css-14mxsc7-MuiDataGrid-root .MuiDataGrid-container--bottom [role=row]":
+                {
+                  backgroundColor:
+                    theme === "dark" ? "#3e4396!important " : "#a4a9fc",
+                  borderBottom: "none",
+                  color: theme === "dark" ? "#fff" : "#000",
+                },
             }}
           >
             <DataGrid checkboxSelection rows={rows} columns={columns} />

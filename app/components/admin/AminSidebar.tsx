@@ -35,7 +35,7 @@ const AminSidebar = () => {
   const menus = [
     { name: "dashboard", link: "/admin", icon: HomeOutlinedIcon },
     { title: "Data" },
-    { name: "users", link: "/", icon: GroupsIcon },
+    { name: "users", link: "/admin/users", icon: GroupsIcon },
     { name: "Invoices", link: "/", icon: ReceiptOutlinedIcon },
     { title: "Contant" },
 
