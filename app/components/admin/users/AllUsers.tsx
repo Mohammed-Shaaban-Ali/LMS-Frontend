@@ -1,42 +1,31 @@
 "use client";
 
 import Loading from "@/app/Loading";
-import { useGetAllcourseQuery } from "@/redux/features/course/CourseApi";
+import { useGetAllUsersQuery } from "@/redux/features/user/userApi";
 import { Box, Button } from "@mui/material";
 import { DataGrid, GridColDef, GridRowsProp } from "@mui/x-data-grid";
 import { useTheme } from "next-themes";
 import { AiOutlineDelete } from "react-icons/ai";
-import { FiEdit2 } from "react-icons/fi";
-import { format } from "timeago.js";
+import { MdOutlineAttachEmail } from "react-icons/md";
 
 interface Course {
   _id: string;
   name: string;
-  purchaseed: number;
-  rating: number;
-  createdAt: string;
+  email: string;
+  role: string;
+  courses: string;
 }
 
-const AllCourses: React.FC = () => {
+const AllUsers: React.FC = () => {
   const { theme } = useTheme();
-  const { data, isLoading } = useGetAllcourseQuery({});
-
+  const { data, isLoading } = useGetAllUsersQuery({});
   const columns: GridColDef[] = [
     { field: "id", headerName: "ID", flex: 0.5 },
-    { field: "title", headerName: "Title", flex: 1 },
-    { field: "ratings", headerName: "Ratings", flex: 0.5 },
-    { field: "purchased", headerName: "Purchased", flex: 0.5 },
-    { field: "createdAt", headerName: "Created At", flex: 0.5 },
-    {
-      field: "edit",
-      headerName: "Edit",
-      flex: 0.2,
-      renderCell: (params) => (
-        <Button>
-          <FiEdit2 className="dark:text-white text-black" size={20} />
-        </Button>
-      ),
-    },
+    { field: "name", headerName: "Name", flex: 1 },
+    { field: "email", headerName: "Email", flex: 0.5 },
+    { field: "role", headerName: "Role", flex: 0.5 },
+    { field: "courses", headerName: "Purchased Courses", flex: 0.5 },
+  
     {
       field: "delete",
       headerName: "Delete",
@@ -47,17 +36,29 @@ const AllCourses: React.FC = () => {
         </Button>
       ),
     },
+    {
+      field: "Email",
+      headerName: "Email",
+      flex: 0.2,
+      renderCell: (params) => (
+        <Button>
+          <MdOutlineAttachEmail className="dark:text-white text-black" size={20} />
+        </Button>
+      ),
+    },
   ];
 
-  const rows: GridRowsProp = data
-    ? data?.courses?.map((item: Course) => ({
+  const rows: GridRowsProp = 
+  data
+    ? data?.users?.map((item: Course) => ({
         id: item._id,
-        title: item.name,
-        purchased: item.purchaseed,
-        ratings: item.rating,
-        createdAt: format(item.createdAt),
+        name: item.name,
+        email: item.email,
+        role: item.role,
+ courses: item.courses.length,
       }))
-    : [];
+    :
+     [];
 
   return (
     <div className="mt-[120px]">
@@ -134,4 +135,4 @@ const AllCourses: React.FC = () => {
   );
 };
 
-export default AllCourses;
+export default AllUsers;
