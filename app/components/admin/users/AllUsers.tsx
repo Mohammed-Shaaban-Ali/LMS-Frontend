@@ -1,12 +1,15 @@
 "use client";
 
+import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
 import Loading from "@/app/Loading";
-import { useGetAllUsersQuery } from "@/redux/features/user/userApi";
+import { useDeleteUserMutation, useGetAllUsersQuery } from "@/redux/features/user/userApi";
 import { Box, Button } from "@mui/material";
 import { DataGrid, GridColDef, GridRowsProp } from "@mui/x-data-grid";
-import { useTheme } from "next-themes";
 import { AiOutlineDelete } from "react-icons/ai";
 import { MdOutlineAttachEmail } from "react-icons/md";
+import DeleteModal from "../../DeleteModal";
+import toast from "react-hot-toast";
 
 interface Course {
   _id: string;
@@ -16,22 +19,33 @@ interface Course {
   courses: string;
 }
 
-const AllUsers: React.FC = () => {
+const AllUsers = (isAdmin: any) => {
+  const [open, setOpen] = useState(false);
+  const [userID, setUserID] = useState<string | undefined>(undefined);
+
   const { theme } = useTheme();
-  const { data, isLoading } = useGetAllUsersQuery({});
+  
+  const { data, isLoading,refetch } = useGetAllUsersQuery({},{refetchOnReconnect:true});
+  const [deleteUser,{isSuccess}]=useDeleteUserMutation()
+
   const columns: GridColDef[] = [
     { field: "id", headerName: "ID", flex: 0.5 },
-    { field: "name", headerName: "Name", flex: 1 },
+    { field: "name", headerName: "Name", flex: 0.6 },
     { field: "email", headerName: "Email", flex: 0.5 },
     { field: "role", headerName: "Role", flex: 0.5 },
     { field: "courses", headerName: "Purchased Courses", flex: 0.5 },
-  
+
     {
       field: "delete",
       headerName: "Delete",
       flex: 0.2,
       renderCell: (params) => (
-        <Button>
+        <Button
+          onClick={() => {
+            setOpen(true);
+            setUserID(params.id);
+          }}
+        >
           <AiOutlineDelete className="dark:text-white text-black" size={20} />
         </Button>
       ),
@@ -42,24 +56,44 @@ const AllUsers: React.FC = () => {
       flex: 0.2,
       renderCell: (params) => (
         <Button>
-          <MdOutlineAttachEmail className="dark:text-white text-black" size={20} />
+          <MdOutlineAttachEmail
+            className="dark:text-white text-black"
+            size={20}
+          />
         </Button>
       ),
     },
   ];
+  let rows: GridRowsProp =
+    isAdmin?.isAdmin == "admin"
+      ? data?.users
+          ?.filter((user: any) => user.role === "admin")
+          .map((user: any) => ({
+            id: user._id,
+            name: user.name,
+            email: user.email,
+            role: user.role,
+            courses: user.courses.length,
+          }))
+      : data?.users?.map((item: any) => ({
+          id: item._id,
+          name: item.name,
+          email: item.email,
+          role: item.role,
+          courses: item.courses.length,
+        }));
 
-  const rows: GridRowsProp = 
-  data
-    ? data?.users?.map((item: Course) => ({
-        id: item._id,
-        name: item.name,
-        email: item.email,
-        role: item.role,
- courses: item.courses.length,
-      }))
-    :
-     [];
-
+  const handleDeleteUser =async () => {
+    await deleteUser(userID);
+    setOpen(false)
+  };
+  useEffect(() => {
+    
+    if(isSuccess){
+      toast.success("User deleted succesfully")
+      refetch()
+    }
+  }, [isSuccess]);
   return (
     <div className="mt-[120px]">
       {isLoading ? (
@@ -129,6 +163,12 @@ const AllUsers: React.FC = () => {
           >
             <DataGrid checkboxSelection rows={rows} columns={columns} />
           </Box>
+
+          <DeleteModal
+            open={open}
+            setOpen={setOpen}
+            handleDelete={handleDeleteUser}
+          />
         </Box>
       )}
     </div>

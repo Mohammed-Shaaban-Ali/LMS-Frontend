@@ -2,12 +2,12 @@ import AllUsers from "@/app/components/admin/users/AllUsers";
 
 type Props = {};
 
-function page({}: Props) {
+const AdminUsersPage: React.FC<Props> = ({}: Props) => {
   return (
     <div>
-      <AllUsers />
+      <AllUsers  />
     </div>
   );
-}
+};
 
-export default page;
+export default AdminUsersPage;
