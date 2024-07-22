@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 // import { useTheme } from "next-themes";
 import Image from "next/image";
 import Avatar from "../../../public/Image/avatar.webp";
+import { useSession } from "next-auth/react";
 
 // icons -----------------------------------------------------------
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
@@ -65,6 +66,8 @@ const AminSidebar = () => {
     { name: "Logout", link: "/", icon: ExitToAppIcon },
   ];
   const [open, setOpen] = useState(true);
+  const { data } = useSession();
+
   return (
     <section className="flex gap-6">
       <div
@@ -88,7 +91,9 @@ const AminSidebar = () => {
           <div className="flex font-semibold justify-center items-center flex-col gap-4 dark:text-gray-200 text-black my-4">
 
             <Image
-              src={user?.avatar ? user.avatar.url : Avatar}
+              src={ user?.avatar  || data?.user
+                ? user?.avatar?.url  || data?.user?.image
+                : Avatar}
               alt="profile-user"
               width={100}
               height={100}

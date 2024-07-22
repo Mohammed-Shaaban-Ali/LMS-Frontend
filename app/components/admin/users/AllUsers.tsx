@@ -3,38 +3,76 @@
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import Loading from "@/app/Loading";
-import { useDeleteUserMutation, useGetAllUsersQuery } from "@/redux/features/user/userApi";
+import {
+  useDeleteUserMutation,
+  useGetAllUsersQuery,
+  useUpdateUserRoleMutation,
+} from "@/redux/features/user/userApi";
 import { Box, Button } from "@mui/material";
 import { DataGrid, GridColDef, GridRowsProp } from "@mui/x-data-grid";
-import { AiOutlineDelete } from "react-icons/ai";
-import { MdOutlineAttachEmail } from "react-icons/md";
 import DeleteModal from "../../DeleteModal";
 import toast from "react-hot-toast";
+import { AiOutlineDelete } from "react-icons/ai";
+import { MdOutlineAttachEmail } from "react-icons/md";
+import { RiAdminFill } from "react-icons/ri";
+import { ImUsers } from "react-icons/im";
 
-interface Course {
+interface User {
   _id: string;
   name: string;
   email: string;
   role: string;
-  courses: string;
+  courses: string[];
 }
 
-const AllUsers = (isAdmin: any) => {
+interface AllUsersProps {
+  isAdmin?: boolean;
+}
+
+const AllUsers: React.FC<AllUsersProps> = ({ isAdmin }) => {
   const [open, setOpen] = useState(false);
   const [userID, setUserID] = useState<string | undefined>(undefined);
 
   const { theme } = useTheme();
-  
-  const { data, isLoading,refetch } = useGetAllUsersQuery({},{refetchOnReconnect:true});
-  const [deleteUser,{isSuccess}]=useDeleteUserMutation()
+
+  const { data, isLoading, refetch } = useGetAllUsersQuery(
+    {},
+    { refetchOnReconnect: true }
+  );
+  const [deleteUser, { isSuccess }] = useDeleteUserMutation();
+  const [
+    updateUserRole,
+    { isSuccess: isUserRoleSuccess, isLoading: isLoadingUserRole },
+  ] = useUpdateUserRoleMutation();
 
   const columns: GridColDef[] = [
     { field: "id", headerName: "ID", flex: 0.5 },
     { field: "name", headerName: "Name", flex: 0.6 },
     { field: "email", headerName: "Email", flex: 0.5 },
-    { field: "role", headerName: "Role", flex: 0.5 },
     { field: "courses", headerName: "Purchased Courses", flex: 0.5 },
-
+    {
+      field: "Role",
+      headerName: "Role",
+      flex: 0.4,
+      renderCell: (params) => (
+        <Button
+          onClick={() => {
+            handleUpadateRole({ role: params.row.role, id: params.id });
+          }}
+        >
+          {params.row.role === "admin" ? (
+            <div className="flex items-center justify-center gap-2 dark:text-white text-black lowercase font-bold">
+              <RiAdminFill className="dark:text-white text-black" size={20} />
+              Admin
+            </div>
+          ) : (
+            <div className="flex items-center justify-center gap-2 dark:text-white text-black lowercase font-bold">
+              <ImUsers className="dark:text-white text-black" size={20} /> users
+            </div>
+          )}
+        </Button>
+      ),
+    },
     {
       field: "delete",
       headerName: "Delete",
@@ -43,7 +81,7 @@ const AllUsers = (isAdmin: any) => {
         <Button
           onClick={() => {
             setOpen(true);
-            setUserID(params.id);
+            setUserID(params.id as string);
           }}
         >
           <AiOutlineDelete className="dark:text-white text-black" size={20} />
@@ -55,45 +93,55 @@ const AllUsers = (isAdmin: any) => {
       headerName: "Email",
       flex: 0.2,
       renderCell: (params) => (
-        <Button>
-          <MdOutlineAttachEmail
-            className="dark:text-white text-black"
-            size={20}
-          />
-        </Button>
+        <div className="flex  items-center h-[100%] w-[100%] justify-center">
+          <a href={`mailto:${params?.row?.email}`}>
+            <MdOutlineAttachEmail
+              className="dark:text-white text-black"
+              size={20}
+            />
+          </a>
+        </div>
       ),
     },
   ];
   let rows: GridRowsProp =
-    isAdmin?.isAdmin == "admin"
-      ? data?.users
-          ?.filter((user: any) => user.role === "admin")
-          .map((user: any) => ({
-            id: user._id,
-            name: user.name,
-            email: user.email,
-            role: user.role,
-            courses: user.courses.length,
-          }))
-      : data?.users?.map((item: any) => ({
-          id: item._id,
-          name: item.name,
-          email: item.email,
-          role: item.role,
-          courses: item.courses.length,
-        }));
+    data?.users?.map((user: User) => ({
+      id: user._id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+      courses: user.courses.length,
+    })) || [];
 
-  const handleDeleteUser =async () => {
-    await deleteUser(userID);
-    setOpen(false)
+  if (isAdmin) {
+    rows = rows.filter((row) => row.role === "admin");
+  }
+
+  const handleDeleteUser = async () => {
+    if (userID) {
+      await deleteUser(userID);
+      setOpen(false);
+    }
+  };
+  const handleUpadateRole = async (datainput: any) => {
+    const { id, role } = datainput;
+    const data = {
+      id,
+      role: role === "admin" ? "user" : "admin",
+    };
+
+    await updateUserRole(data);
   };
   useEffect(() => {
-    
-    if(isSuccess){
-      toast.success("User deleted succesfully")
-      refetch()
+    if (isSuccess) {
+      toast.success("User deleted successfully");
+      refetch();
     }
-  }, [isSuccess]);
+    if (isUserRoleSuccess) {
+      toast.success("Role updated successfully");
+      refetch();
+    }
+  }, [isSuccess, refetch, isUserRoleSuccess]);
   return (
     <div className="mt-[120px]">
       {isLoading ? (
