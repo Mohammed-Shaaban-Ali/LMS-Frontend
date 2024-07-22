@@ -1,13 +1,16 @@
 "use client";
 
 import Loading from "@/app/Loading";
-import { useGetAllcourseQuery } from "@/redux/features/course/CourseApi";
+import { useDeleteCoursMutation, useGetAllcourseQuery } from "@/redux/features/course/CourseApi";
 import { Box, Button } from "@mui/material";
 import { DataGrid, GridColDef, GridRowsProp } from "@mui/x-data-grid";
 import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
 import { AiOutlineDelete } from "react-icons/ai";
 import { FiEdit2 } from "react-icons/fi";
 import { format } from "timeago.js";
+import DeleteModal from "../../DeleteModal";
+import toast from "react-hot-toast";
 
 interface Course {
   _id: string;
@@ -19,7 +22,11 @@ interface Course {
 
 const AllCourses: React.FC = () => {
   const { theme } = useTheme();
-  const { data, isLoading } = useGetAllcourseQuery({});
+  const [open, setOpen] = useState(false);
+  const [courseID, setCourseID] = useState<string | undefined>(undefined);
+  const [deleteCours, { isSuccess }] = useDeleteCoursMutation();
+
+  const { data, isLoading,refetch } = useGetAllcourseQuery({},{ refetchOnReconnect: true });
 
   const columns: GridColDef[] = [
     { field: "id", headerName: "ID", flex: 0.5 },
@@ -42,8 +49,11 @@ const AllCourses: React.FC = () => {
       headerName: "Delete",
       flex: 0.2,
       renderCell: (params) => (
-        <Button>
-          <AiOutlineDelete className="dark:text-white text-black" size={20} />
+        <Button  onClick={() => {
+          setOpen(true);
+          setCourseID(params.id as string);
+        }}>
+          <AiOutlineDelete  className="dark:text-white text-black" size={20} />
         </Button>
       ),
     },
@@ -58,7 +68,16 @@ const AllCourses: React.FC = () => {
         createdAt: format(item.createdAt),
       }))
     : [];
-
+const handleDeleteCourses=async()=>{
+  await deleteCours(courseID);
+  setOpen(false);
+}
+useEffect(() => {
+  if (isSuccess) {
+    toast.success("User deleted successfully");
+    refetch();
+  }
+}, [isSuccess, refetch]);
   return (
     <div className="mt-[120px]">
       {isLoading ? (
@@ -128,6 +147,11 @@ const AllCourses: React.FC = () => {
           >
             <DataGrid checkboxSelection rows={rows} columns={columns} />
           </Box>
+          <DeleteModal
+            open={open}
+            setOpen={setOpen}
+            handleDelete={handleDeleteCourses}
+          />
         </Box>
       )}
     </div>

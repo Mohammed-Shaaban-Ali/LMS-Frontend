@@ -3,7 +3,7 @@ import AllUsers from "@/app/components/admin/users/AllUsers";
 const AdminUsersPage: React.FC = () => {
   return (
     <div>
-      <AllUsers isAdmin={"admin"} />
+      <AllUsers isAdmin={true} />
     </div>
   );
 }

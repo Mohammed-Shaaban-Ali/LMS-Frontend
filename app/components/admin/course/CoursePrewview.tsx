@@ -9,6 +9,7 @@ type Props = {
   setActive: (active: number) => void;
   finalCourseData: any;
   handleCreateCourse: () => void;
+  isLoading:boolen;
 };
 
 function CoursePrewview({
