@@ -5,39 +5,20 @@ type Props = {
 };
 
 function Ratings({ rating }: Props) {
-  const start = [];
-
+  const stars = [];
+  // rating=5
   for (let i = 1; i <= 5; i++) {
-    if (i <= rating) {
-      start.push(
-        <AiFillStar
-          key={i}
-          size={20}
-          color="#f6b100"
-          className="mr-2 cursor-pointer"
-        />
-      );
-    } else if (i === Math.ceil(rating) && !Number.isInteger(rating)) {
-      start.push(
-        <AiFillStar
-          key={i}
-          size={17}
-          color="#f6ba00"
-          className="mr-2 cursor-pointer"
-        />
-      );
-    } else {
-      start.push(
-        <AiFillStar
-          key={i}
-          size={20}
-          color="#f6ba00"
-          className="mr-2 cursor-pointer"
-        />
-      );
-    }
+    const starProps = {
+      key: i,
+      size: i === Math.ceil(rating) && !Number.isInteger(rating) ? 17 : 20,
+      color: "#f6b100",
+      className: "mr-2 cursor-pointer"
+    };
+
+    stars.push(<AiFillStar {...starProps} />);
   }
-  return <div className="flex mt-1 ml-2 800px:mt-0 800px:ml-0">{start}</div>;
+
+  return <div className="flex mt-1 ml-2 800px:mt-0 800px:ml-0">{stars}</div>;
 }
 
 export default Ratings;

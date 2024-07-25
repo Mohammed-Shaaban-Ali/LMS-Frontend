@@ -1,4 +1,5 @@
 "use client";
+import CourseThumbnail from "@/app/utils/ImageDimensions";
 import React, { useState } from "react";
 
 type Props = {
@@ -12,7 +13,7 @@ type Props = {
     tags: string;
     level: string;
     demoUrl: string;
-    thumbnail: string | ArrayBuffer | null;
+    thumbnail: any ;
   };
   setCourseInfo: (courseInfo: any) => void;
 };
@@ -200,17 +201,9 @@ function CourseInformation({
             onDragLeave={handleDragLeave}
             onDrop={handleDrop}
           >
-            {courseInfo.thumbnail ? (
-              <img
-                src={courseInfo.thumbnail as string}
-                alt="thumbnail"
-                className="max-h-full w-full object-cover"
-              />
-            ) : (
-              <span className="text-black dark:text-white">
-                Drag and Drop your thumbnail here or click to browse
-              </span>
-            )}
+            {
+              <CourseThumbnail courseInfo={courseInfo} />
+            }
           </label>
         </div>
         <br />
@@ -238,11 +231,10 @@ function CourseInformation({
             </span>
             <span className="relative">Next</span>
           </button>
-          
         </div>
       </form>
       <br />
-          <br />
+      <br />
     </div>
   );
 }

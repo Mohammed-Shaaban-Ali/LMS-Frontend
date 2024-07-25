@@ -71,7 +71,7 @@ const AminSidebar = () => {
   return (
     <section className="flex gap-6">
       <div
-        className={`dark:bg-[#111C43] bg-[#eeeeee5e] min-h-screen ${
+        className={`dark:bg-[#111C43] bg-[#eeeeee5e] h-screen overflow-y-scroll ${
           open ? "w-72" : "w-16"
         } duration-500  px-4 dark:text-white text-black`}
       >

@@ -1,7 +1,10 @@
 "use client";
 
 import Loading from "@/app/Loading";
-import { useDeleteCoursMutation, useGetAllcourseQuery } from "@/redux/features/course/CourseApi";
+import {
+  useDeleteCoursMutation,
+  useGetAllcourseQuery,
+} from "@/redux/features/course/CourseApi";
 import { Box, Button } from "@mui/material";
 import { DataGrid, GridColDef, GridRowsProp } from "@mui/x-data-grid";
 import { useTheme } from "next-themes";
@@ -11,6 +14,7 @@ import { FiEdit2 } from "react-icons/fi";
 import { format } from "timeago.js";
 import DeleteModal from "../../DeleteModal";
 import toast from "react-hot-toast";
+import Link from "next/link";
 
 interface Course {
   _id: string;
@@ -26,7 +30,10 @@ const AllCourses: React.FC = () => {
   const [courseID, setCourseID] = useState<string | undefined>(undefined);
   const [deleteCours, { isSuccess }] = useDeleteCoursMutation();
 
-  const { data, isLoading,refetch } = useGetAllcourseQuery({},{ refetchOnReconnect: true });
+  const { data, isLoading, refetch } = useGetAllcourseQuery(
+    {},
+    { refetchOnReconnect: true }
+  );
 
   const columns: GridColDef[] = [
     { field: "id", headerName: "ID", flex: 0.5 },
@@ -39,9 +46,12 @@ const AllCourses: React.FC = () => {
       headerName: "Edit",
       flex: 0.2,
       renderCell: (params) => (
-        <Button>
+        <div className="flex  items-center h-[100%] w-[100%] justify-center">
+
+        <Link href={`/admin/edit-course/${params.id}`} >
           <FiEdit2 className="dark:text-white text-black" size={20} />
-        </Button>
+        </Link>
+        </div>
       ),
     },
     {
@@ -49,11 +59,13 @@ const AllCourses: React.FC = () => {
       headerName: "Delete",
       flex: 0.2,
       renderCell: (params) => (
-        <Button  onClick={() => {
-          setOpen(true);
-          setCourseID(params.id as string);
-        }}>
-          <AiOutlineDelete  className="dark:text-white text-black" size={20} />
+        <Button
+          onClick={() => {
+            setOpen(true);
+            setCourseID(params.id as string);
+          }}
+        >
+          <AiOutlineDelete className="dark:text-white text-black" size={20} />
         </Button>
       ),
     },
@@ -68,16 +80,16 @@ const AllCourses: React.FC = () => {
         createdAt: format(item.createdAt),
       }))
     : [];
-const handleDeleteCourses=async()=>{
-  await deleteCours(courseID);
-  setOpen(false);
-}
-useEffect(() => {
-  if (isSuccess) {
-    toast.success("User deleted successfully");
+  const handleDeleteCourses = async () => {
+    await deleteCours(courseID);
+    setOpen(false);
+  };
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success("Course deleted successfully");
+    }
     refetch();
-  }
-}, [isSuccess, refetch]);
+  }, [isSuccess, refetch]);
   return (
     <div className="mt-[120px]">
       {isLoading ? (

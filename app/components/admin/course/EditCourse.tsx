@@ -7,18 +7,24 @@ import CourseData from "./CourseData";
 import CourseContent from "./CourseContent";
 import { ContentSection, CourseInfo, Item } from "./types"; // Import types
 import CoursePrewview from "./CoursePrewview";
-import { useCreateCourseMutation } from "@/redux/features/course/CourseApi";
+import {
+  useGetSingleCourseQuery,
+  useUpdateCourseMutation,
+} from "@/redux/features/course/CourseApi";
 import toast from "react-hot-toast";
 import { redirect } from "next/navigation";
 
 // Define the type for the props
-type Props = {};
-
+type Props = {
+  id: string;
+};
 
 // Main functional component
-const CreateCourse: React.FC<Props> = () => {
-  const [createCourse, { isLoading, isSuccess, error }] =
-    useCreateCourseMutation();
+const EditCourse: React.FC<Props> = ({ id }) => {
+  const { data } = useGetSingleCourseQuery(id, {
+    refetchOnMountOrArgChange: true,
+  });
+  const [updateCourse, { isSuccess, error }] = useUpdateCourseMutation();
   const [active, setActive] = useState<number>(0);
   const [benefits, setBenefits] = useState<Item[]>([{ title: "" }]);
   const [prerequisites, setPrerequisites] = useState<Item[]>([{ title: "" }]);
@@ -32,7 +38,6 @@ const CreateCourse: React.FC<Props> = () => {
     demoUrl: "",
     thumbnail: "",
   });
-
   const [courseContentData, setCourseContentData] = useState<ContentSection[]>([
     {
       videoUrl: "",
@@ -43,8 +48,25 @@ const CreateCourse: React.FC<Props> = () => {
       suggestion: "",
     },
   ]);
-
   const [finalCourseData, setFinalCourseData] = useState({});
+
+  useEffect(() => {
+    if (data) {
+      setCourseInfo({
+        name: data?.course?.name,
+        description: data?.course?.description,
+        price: data?.course?.price,
+        estimatedPrice: data?.course?.estimatedPrice,
+        tags: data?.course?.tags,
+        level: data?.course?.level,
+        demoUrl: data?.course?.demoUrl,
+        thumbnail: data?.course?.thumbnail?.url,
+      });
+      setBenefits(data?.course?.benfites);
+      setPrerequisites(data?.course?.prerequisites);
+      setCourseContentData(data?.course?.courseData);
+    }
+  }, [data]);
   const handleSubmit = async () => {
     // format benfites array
     const formatBenfitesArray = benefits.map((benefit) => ({
@@ -61,7 +83,7 @@ const CreateCourse: React.FC<Props> = () => {
       videoUrl: courseContent.videoUrl,
       title: courseContent.title,
       description: courseContent.description,
-      videoSection: courseContent.videoSection,
+      videoSecting: courseContent.videoSection,
       suggestion: courseContent.suggestion,
       links: courseContent.links.map((link) => ({
         title: link.title,
@@ -87,9 +109,13 @@ const CreateCourse: React.FC<Props> = () => {
     setFinalCourseData(data);
   };
 
+  const handleCreateCourse = async () => {
+    const data = { id, finalCourseData };
+    await updateCourse(data);
+  };
   useEffect(() => {
     if (isSuccess) {
-      toast.success("Create Course Success");
+      toast.success("Update Course Success");
       redirect("/admin/courses");
     }
     if (error && "data" in error) {
@@ -97,16 +123,9 @@ const CreateCourse: React.FC<Props> = () => {
       toast.error(errorMesage);
     }
   }, [error, isSuccess]);
-
-  const handleCreateCourse = async () => {
-    const data = finalCourseData;
-
-    if (!isLoading) await createCourse(data);
-  };
-
   return (
-    <div className="w-full flex ">
-      <div className="w-[80%] ">
+    <div className="w-full flex min-h-screen">
+      <div className="w-[80%]">
         {active === 0 && (
           <CourseInformation
             active={active}
@@ -140,7 +159,7 @@ const CreateCourse: React.FC<Props> = () => {
             setActive={setActive}
             finalCourseData={finalCourseData}
             handleCreateCourse={handleCreateCourse}
-            isEdit={false}
+            isEdit={true}
           />
         )}
       </div>
@@ -151,4 +170,4 @@ const CreateCourse: React.FC<Props> = () => {
   );
 };
 
-export default CreateCourse;
+export default EditCourse;
