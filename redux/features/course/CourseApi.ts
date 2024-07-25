@@ -18,12 +18,37 @@ export const courseApi = apiSlice.injectEndpoints({
       }),
     }),
     deleteCours: builder.mutation({
-      query: (id ) => ({
+      query: (id) => ({
         url: `delete-course/${id}`,
         method: "DELETE",
         credentials: "include" as const,
       }),
     }),
+    getSingleCourse: builder.query({
+      query: (id) => ({
+        url: `get-course-admin/${id}`,
+        method: "GET",
+        credentials: "include" as const,
+        keepUnusedDataFor: 0,
+      }),
+    }),
+    updateCourse: builder.mutation({
+      query(data) {
+        const { id, finalCourseData } = data;
+        return {
+          url: `eidt-course/${id}`,
+          method: "PUT",
+          body: finalCourseData,
+          credentials: "include" as const,
+        };
+      },
+    }),
   }),
 });
-export const { useCreateCourseMutation,useGetAllcourseQuery,useDeleteCoursMutation } = courseApi;
+export const {
+  useCreateCourseMutation,
+  useGetAllcourseQuery,
+  useDeleteCoursMutation,
+  useGetSingleCourseQuery,
+  useUpdateCourseMutation,
+} = courseApi;

@@ -71,7 +71,6 @@ function CourseData({
       toast.error("Please fill in all fields to proceed to the next step.");
     }
   };
-
   return (
     <div className="w-[80%] m-auto mt-24">
       <div>
@@ -79,7 +78,7 @@ function CourseData({
           What are the benefits for students in this course?
         </label>
         <br />
-        {benefits.map((benefit, i) => (
+        {benefits?.map((benefit, i) => (
           <div key={i}>
             <input
               type="text"
@@ -111,7 +110,7 @@ function CourseData({
           What are the prerequisites for students in this course?
         </label>
         <br />
-        {prerequisites.map((prerequisite, i) => (
+        {prerequisites?.map((prerequisite, i) => (
           <div key={i}>
             <input
               type="text"

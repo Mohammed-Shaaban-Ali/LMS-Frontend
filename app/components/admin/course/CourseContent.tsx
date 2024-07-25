@@ -27,7 +27,7 @@ const CourseContent: React.FC<Props> = ({
   handleSubmit,
 }) => {
   const [isCollapsed, setIsCollapsed] = useState<boolean[]>(
-    Array(courseContentData.length).fill(false)
+    Array(courseContentData?.length).fill(false)
   );
   const [activeSection, setActiveSection] = useState<number>(1);
 
@@ -72,9 +72,9 @@ const CourseContent: React.FC<Props> = ({
     }
 
     let newVideoSection = "";
-    if (courseContentData.length > 0) {
+    if (courseContentData?.length > 0) {
       const lastVideoSection =
-        courseContentData[courseContentData.length - 1].videoSection;
+        courseContentData[courseContentData?.length - 1].videoSection;
       if (lastVideoSection) newVideoSection = lastVideoSection;
     }
 
@@ -91,11 +91,11 @@ const CourseContent: React.FC<Props> = ({
   // Add new section
   const handleAddSection = () => {
     if (
-      courseContentData[courseContentData.length - 1].title === "" ||
-      courseContentData[courseContentData.length - 1].description === "" ||
-      courseContentData[courseContentData.length - 1].videoUrl === "" ||
-      courseContentData[courseContentData.length - 1].links[0].title === "" ||
-      courseContentData[courseContentData.length - 1].links[0].url === ""
+      courseContentData[courseContentData?.length - 1].title === "" ||
+      courseContentData[courseContentData?.length - 1].description === "" ||
+      courseContentData[courseContentData?.length - 1].videoUrl === "" ||
+      courseContentData[courseContentData?.length - 1].links[0].title === "" ||
+      courseContentData[courseContentData?.length - 1].links[0].url === ""
     ) {
       toast.error("Please fill all the fields first!");
       return;
@@ -118,11 +118,11 @@ const CourseContent: React.FC<Props> = ({
   };
   const handleNext = () => {
     if (
-      courseContentData[courseContentData.length - 1].title === "" ||
-      courseContentData[courseContentData.length - 1].description === "" ||
-      courseContentData[courseContentData.length - 1].videoUrl === "" ||
-      courseContentData[courseContentData.length - 1].links[0].title === "" ||
-      courseContentData[courseContentData.length - 1].links[0].url === ""
+      courseContentData[courseContentData?.length - 1].title === "" ||
+      courseContentData[courseContentData?.length - 1].description === "" ||
+      courseContentData[courseContentData?.length - 1].videoUrl === "" ||
+      courseContentData[courseContentData?.length - 1].links[0].title === "" ||
+      courseContentData[courseContentData?.length - 1].links[0].url === ""
     ) {
       toast.error("Please fill all the fields first!");
       return;
@@ -169,7 +169,7 @@ const CourseContent: React.FC<Props> = ({
                 setCourseContentData={setCourseContentData}
                 courseContentData={courseContentData}
               />
-              {index === courseContentData.length - 1 && (
+              {index === courseContentData?.length - 1 && (
                 <AddNewContentButton
                   handleNewContent={() => handleNewContent(item)}
                 />
