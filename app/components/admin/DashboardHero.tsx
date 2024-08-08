@@ -1,12 +1,20 @@
-import React from 'react'
-import DashboardHeader from './DashboardHeader'
+"use client";
+import { useState } from "react";
+import DashboardHeader from "./DashboardHeader";
+import DashbordWidgest from "./Widgets/DashbordWidgest";
 
-type Props = {}
+type Props = {
+  isDashbord?: boolean;
+};
 
-function DashboardHero({}: Props) {
+function DashboardHero({ isDashbord }: Props) {
+  const [open, setopen] = useState(false);
   return (
-    <div className='text-white'>home</div>
-  )
+    <div>
+      <DashboardHeader open={open} setOpen={setopen} />
+      {isDashbord && <DashbordWidgest open={open} />}
+    </div>
+  );
 }
 
-export default DashboardHero
+export default DashboardHero;
