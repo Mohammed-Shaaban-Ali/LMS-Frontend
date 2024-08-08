@@ -37,7 +37,7 @@ const AminSidebar = () => {
     { name: "dashboard", link: "/admin", icon: HomeOutlinedIcon },
     { title: "Data" },
     { name: "users", link: "/admin/users", icon: GroupsIcon },
-    { name: "Invoices", link: "/", icon: ReceiptOutlinedIcon },
+    { name: "Invoices", link: "/admin/invoices", icon: ReceiptOutlinedIcon },
     { title: "Contant" },
 
     {
@@ -58,9 +58,21 @@ const AminSidebar = () => {
     { title: "Controllers" },
     { name: "Manage Team", link: "/admin/team", icon: PeopleOutlinedIcon },
     { title: "Analytics" },
-    { name: "Courses Analytics", link: "/ ", icon: BarChartOutlinedIcon },
-    { name: "Ordera Analytics", link: "/", icon: MapOutlinedIcon },
-    { name: "Users Analytics", link: "/", icon: ManageHistoryIcon },
+    {
+      name: "Courses Analytics",
+      link: "/admin/courses-analytics",
+      icon: BarChartOutlinedIcon,
+    },
+    {
+      name: "Ordera Analytics",
+      link: "/admin/order-analytics",
+      icon: MapOutlinedIcon,
+    },
+    {
+      name: "Users Analytics",
+      link: "/admin/users-analytics",
+      icon: ManageHistoryIcon,
+    },
     { title: "Extras" },
     { name: "Settings", link: "/", icon: SettingsIcon },
     { name: "Logout", link: "/", icon: ExitToAppIcon },
@@ -89,11 +101,12 @@ const AminSidebar = () => {
         </div>
         {open && (
           <div className="flex font-semibold justify-center items-center flex-col gap-4 dark:text-gray-200 text-black my-4">
-
             <Image
-              src={ user?.avatar  || data?.user
-                ? user?.avatar?.url  || data?.user?.image
-                : Avatar}
+              src={
+                user?.avatar || data?.user
+                  ? user?.avatar?.url || data?.user?.image
+                  : Avatar
+              }
               alt="profile-user"
               width={100}
               height={100}
@@ -117,8 +130,8 @@ const AminSidebar = () => {
                 open && <h2 className="-mb-2 mt-2 font-bold -px-1">{title}</h2>
               ) : (
                 <Link
-                href={link ? link :"/"}
-                   onClick={() => setselected(name)}
+                  href={link ? link : "/"}
+                  onClick={() => setselected(name)}
                   className={`group flex flex-col items-start text-sm font-medium px-1 py-2 hover:bg-gray-300 dark:hover:bg-gray-600 rounded-md cursor-pointer ${
                     name === selected && "text-[#5b6fe6]"
                   }`}
