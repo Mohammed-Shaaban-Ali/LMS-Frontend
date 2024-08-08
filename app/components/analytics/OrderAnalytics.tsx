@@ -30,7 +30,6 @@ export default function OrderAnalytics({ isDashboard }: Props) {
   const { data: userAnalyicsData, isLoading } = useAnalyticsOrderQuery({});
   const data: ChartData[] = [];
 
-  console.log(userAnalyicsData?.order?.last12Month);
   userAnalyicsData &&
     userAnalyicsData?.order?.last12Month?.forEach((element: any) => {
       data.push({

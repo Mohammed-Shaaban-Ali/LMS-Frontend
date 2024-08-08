@@ -22,7 +22,6 @@ type ChartData = {
 export default function CourseAnalytics({ isDashboard }: Props) {
   const { data: courseAnalyicsData, isLoading } = useAnalyticsCoursesQuery({});
   const data: ChartData[] = [];
-  console.log(courseAnalyicsData?.course?.last12Month);
   courseAnalyicsData &&
     courseAnalyicsData?.course?.last12Month?.forEach((element: any) => {
       data.push({

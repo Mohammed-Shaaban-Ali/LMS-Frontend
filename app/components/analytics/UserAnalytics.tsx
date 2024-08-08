@@ -23,7 +23,6 @@ export default function UserAnalytics({ isDashboard }: Props) {
   const { data: userAnalyicsData, isLoading } = useAnalyticsUserQuery({});
   const data: ChartData[] = [];
 
-  console.log(userAnalyicsData?.users?.last12Month);
   userAnalyicsData &&
     userAnalyicsData?.users?.last12Month?.forEach((element: any) => {
       data.push({
@@ -39,7 +38,7 @@ export default function UserAnalytics({ isDashboard }: Props) {
         <div
           className={`${
             !isDashboard
-              ? "mt-[50px]"
+              ? "mt-[50px] "
               : "mt-[50px] dark:bg-[#111c43] pb-5 shadow-sm rounded-sm"
           }`}
         >
