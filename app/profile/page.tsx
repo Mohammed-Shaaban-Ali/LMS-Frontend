@@ -4,8 +4,8 @@ import Heading from "../utils/Heading";
 import Header from "../components/Header";
 import Protected from "../hooks/useProtected";
 import { useSelector } from "react-redux";
-import Profile from "../components/profile/Profile";
 import { useSession } from "next-auth/react";
+import Profile from "../components/profile/profile";
 
 interface Props {}
 
@@ -31,7 +31,7 @@ const Page: FC<Props> = (props) => {
           setRoute={setRoute}
           route={route}
         />
-        <Profile user={user} data={data}/>
+        <Profile user={user} data={data} />
       </Protected>
     </>
   );

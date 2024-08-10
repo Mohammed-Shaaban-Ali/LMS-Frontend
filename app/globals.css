@@ -40,6 +40,9 @@ body {
   .input {
     @apply w-full text-black dark:text-white bg-transparent border rounded h-[40px] px-2 outline-none mt-[10px] font-Poppins;
   }
+  .text-gradient {
+    @apply bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent;
+  }
 }
 
 @keyframes changeBackgroundColor {

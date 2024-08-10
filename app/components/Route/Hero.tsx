@@ -1,6 +1,5 @@
 import Image from "next/image";
-import React, { lazy } from "react";
-import HeroImage from "../../public/Image/banner-img-1.png";
+import HeroImage from "../../../public/Image/banner-img-1.png";
 
 const Hero = () => {
   return (
