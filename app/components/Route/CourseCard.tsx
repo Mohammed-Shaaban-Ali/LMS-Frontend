@@ -10,7 +10,6 @@ type Props = {
 };
 
 export default function CourseCard({ isProfile, item }: Props) {
-  console.log(item);
   return (
     <Link
       href={!isProfile ? `/course/${item._id}` : `access-course/${item._id}`}

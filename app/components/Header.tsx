@@ -29,86 +29,82 @@ type Props = {
 };
 
 const Header: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
-  const [avtive, setAvtive] = useState(false);
-  const [openSidbar, setOpenSidbar] = useState(false);
+  const [active, setActive] = useState(false);
+  const [openSidebar, setOpenSidebar] = useState(false);
   const [logout, setLogout] = useState<boolean>(false);
 
   const { user } = useSelector((state: any) => state.auth);
-
   const { data } = useSession();
-  const [socilatLogin] = useSocilatLoginMutation();
+  const [socialLogin] = useSocilatLoginMutation();
 
-  const {} = useLogoutQuery(undefined, { skip: !logout ? true : false });
+  useLogoutQuery(undefined, { skip: !logout });
+
   useEffect(() => {
-    if (!user) {
-      if (data) {
-        const sendData = {
-          email: data.user?.email,
-          name: data.user?.name,
-          avatar: data.user?.image,
-        };
-        socilatLogin(sendData);
-      }
+    if (!user && data) {
+      const sendData = {
+        email: data.user?.email,
+        name: data.user?.name,
+        avatar: data.user?.image,
+      };
+      socialLogin(sendData);
     }
 
-    if (data === null && !user) {
+    if (!user && data === null) {
       setLogout(true);
     }
-  }, [data, user]);
-  if (typeof window !== "undefined") {
-    window.addEventListener("scroll", () => {
-      if (window.scrollY > 85) setAvtive(true);
-      else setAvtive(false);
-    });
-  }
-  const handelClose = (e: any) => {
-    if (e.target.id === "screen") setOpenSidbar(false);
+  }, [data, user, socialLogin]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setActive(window.scrollY > 85);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  const handleClose = (e: any) => {
+    if (e.target.id === "screen") setOpenSidebar(false);
   };
 
   return (
     <div className="w-full relative container mx-auto">
       <div
         className={`${
-          avtive
-            ? "dark:bg-opacity-50 dark:bg-gradient-to-b w-full border-b  dark:border-[#ffffff1c] dark:from-gray-900 dark:to-black fixed top-0 left-0  z-[80]  shadow-xl duration-500"
-            : " h-[80px] z-[80] dark:shadow w-full border-b  dark:border-[#ffffff1c]"
-        } `}
+          active
+            ? "dark:bg-opacity-50 dark:bg-gradient-to-b w-full border-b dark:border-[#ffffff1c] dark:from-gray-900 dark:to-black fixed top-0 left-0 z-[80] shadow-xl duration-500"
+            : "h-[80px] z-[80] dark:shadow w-full border-b dark:border-[#ffffff1c]"
+        }`}
       >
         <div className="w-[95%] 800px:w-[92%] m-auto py-2 h-full">
           <div className="w-full h-[80px] flex items-center justify-between p-3">
-            <div>
-              {/* logo */}
-              <Link
-                href={"/"}
-                className={`text-[25px] font-Poppins font-[500] text-black dark:text-white `}
-              >
-                <h1>ELearning</h1>
-              </Link>
-            </div>
+            <Link
+              href="/"
+              className="text-[25px] font-Poppins font-[500] text-black dark:text-white"
+            >
+              ELearning
+            </Link>
             <div className="flex items-center">
               <NavItems activeItem={activeItem} isMobile={false} />
               <ThemeSwitcher />
-              {/* only for mobile */}
+              {/* Only for mobile */}
               <div className="800px:hidden cursor-pointer dark:text-white text-black">
                 <HiOutlineMenuAlt3
                   size={25}
-                  onClick={() => setOpenSidbar(true)}
+                  onClick={() => setOpenSidebar(true)}
                 />
               </div>
-              {/*End only for mobile */}
+              {/* End only for mobile */}
               {user ? (
-                <Link href={"/profile"} className="w-[28px] h-[28px] ">
+                <Link href="/profile" className="w-[28px] h-[28px]">
                   <Image
-                    src={
-                      user.avatar
-                        ? user.avatar.url
-                        : data?.user
-                        ? data.user.image
-                        : Avatar
-                    }
+                    src={user.avatar?.url || data?.user?.image || Avatar}
                     width={32}
                     height={32}
-                    className={` w-[28px] h-[28px] rounded-full cursor-pointer ${
+                    className={`w-[28px] h-[28px] rounded-full cursor-pointer ${
                       activeItem ? "border border-green-500" : ""
                     }`}
                     alt="user photo"
@@ -124,14 +120,14 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
             </div>
           </div>
         </div>
-        {/* mobile Sidebar */}
-        {openSidbar && (
+        {/* Mobile Sidebar */}
+        {openSidebar && (
           <div
             className="fixed w-full h-screen top-0 z-[99] dark:bg-[unset] bg-[#00000024]"
-            onClick={handelClose}
+            onClick={handleClose}
             id="screen"
           >
-            <div className="w-[70%] fixed z=[100] h-screen bg-white dark:bg-slate-900 dark:bg-opacity-90 top-0 right-0">
+            <div className="w-[70%] fixed z-[100] h-screen bg-white dark:bg-slate-900 dark:bg-opacity-90 top-0 right-0">
               <NavItems activeItem={activeItem} isMobile={true} />
               <HiOutlineUserCircle
                 className="cursor-pointer ml-5 my-2 dark:text-white text-black"
@@ -143,44 +139,32 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
         )}
       </div>
 
-      {route === "Login" && (
-        <>
-          {open && (
-            <CustomModel
-              open={open}
-              setOpen={setOpen}
-              setRoute={setRoute}
-              activeItem={activeItem}
-              Component={Login}
-            />
-          )}
-        </>
+      {route === "Login" && open && (
+        <CustomModel
+          open={open}
+          setOpen={setOpen}
+          setRoute={setRoute}
+          activeItem={activeItem}
+          Component={Login}
+        />
       )}
-      {route === "Sing-Up" && (
-        <>
-          {open && (
-            <CustomModel
-              open={open}
-              setOpen={setOpen}
-              setRoute={setRoute}
-              activeItem={activeItem}
-              Component={SingUp}
-            />
-          )}
-        </>
+      {route === "Sign-Up" && open && (
+        <CustomModel
+          open={open}
+          setOpen={setOpen}
+          setRoute={setRoute}
+          activeItem={activeItem}
+          Component={SingUp}
+        />
       )}
-      {route === "Verification" && (
-        <>
-          {open && (
-            <CustomModel
-              open={open}
-              setOpen={setOpen}
-              setRoute={setRoute}
-              activeItem={activeItem}
-              Component={Verification}
-            />
-          )}
-        </>
+      {route === "Verification" && open && (
+        <CustomModel
+          open={open}
+          setOpen={setOpen}
+          setRoute={setRoute}
+          activeItem={activeItem}
+          Component={Verification}
+        />
       )}
     </div>
   );
