@@ -1,5 +1,4 @@
 import AminSidebar from "../components/admin/AminSidebar";
-import DashboardHeader from "../components/admin/DashboardHeader";
 import AdminProtected from "../hooks/adminProtected";
 import Heading from "../utils/Heading";
 export default function DashboardLayout({
@@ -20,7 +19,6 @@ export default function DashboardLayout({
             <AminSidebar />
           </div>
           <div className="w-full h-screen overflow-y-scroll px-5">
-            <DashboardHeader />
             {children}
           </div>
         </div>
