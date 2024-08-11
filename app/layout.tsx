@@ -1,28 +1,31 @@
 "use client";
 
 import React from "react";
-import "./globals.css";
-import { ThemeProvider } from "./utils/theme-provider";
+import { ThemeProvider } from "next-themes";
 import { Toaster } from "react-hot-toast";
-import Providers from "./Provider";
 import { SessionProvider } from "next-auth/react";
-import Loading from "./components/Loading";
-import { useLoadUserQuery } from "@/redux/api/apiSlice";
+import Providers from "./Provider";
 
-const RootLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+import "./globals.css";
+
+interface RootLayoutProps {
+  children: React.ReactNode;
+}
+
+const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
   return (
-    <html lang="en" suppressHydrationWarning={true}>
+    <html lang="en" suppressHydrationWarning>
       <head>
         <title>Your App Title</title>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        {/* Add more meta tags and link tags as needed */}
+        <meta name="description" content="Your app description here" />
       </head>
-      <body className="font-Poppins !bg-white bg-no-repeat dark:bg-gradient-to-b dark:from-gray-900 dark:to-black duration-300">
+      <body className="font-poppins bg-white dark:bg-gradient-to-b dark:from-gray-900 dark:to-black transition-colors duration-300">
         <Providers>
           <SessionProvider>
             <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-              <Custom>{children}</Custom>
+              {children}
               <Toaster position="top-center" reverseOrder={false} />
             </ThemeProvider>
           </SessionProvider>
@@ -32,14 +35,14 @@ const RootLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   );
 };
 
-const Custom: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const { isLoading } = useLoadUserQuery({});
-
-  if (isLoading) {
-    return <Loading />;
-  }
-
-  return children;
-};
-
 export default RootLayout;
+
+// const Custom: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+//   const { isLoading } = useLoadUserQuery({});
+
+//   if (isLoading) {
+//     return <Loading />;
+//   }
+
+//   return children;
+// };              {/* <Custom>{children}</Custom> */}
