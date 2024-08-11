@@ -88,7 +88,7 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
               ELearning
             </Link>
             <div className="flex items-center">
-              <NavItems activeItem={activeItem} isMobile={false} />
+              <NavItems activeItem={activeItem} />
               <ThemeSwitcher />
               {/* Only for mobile */}
               <div className="800px:hidden cursor-pointer dark:text-white text-black">
@@ -128,7 +128,7 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
             id="screen"
           >
             <div className="w-[70%] fixed z-[100] h-screen bg-white dark:bg-slate-900 dark:bg-opacity-90 top-0 right-0">
-              <NavItems activeItem={activeItem} isMobile={true} />
+              <NavItems activeItem={activeItem} />
               <HiOutlineUserCircle
                 className="cursor-pointer ml-5 my-2 dark:text-white text-black"
                 size={25}
