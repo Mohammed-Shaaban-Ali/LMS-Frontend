@@ -1,6 +1,6 @@
 "use client";
 
-import { store, useInitializeApp } from "@/redux/store";
+import { store } from "@/redux/store";
 import { SessionProvider } from "next-auth/react";
 import { Provider } from "react-redux";
 import { ThemeProvider } from "./utils/theme-provider";
@@ -13,20 +13,14 @@ type Props = {
   children: React.ReactNode;
 };
 
-function AppInitializer({ children }: { children: React.ReactNode }) {
-  useInitializeApp();
-  return children;
-}
 function Providers({ children }: Props) {
   return (
     <SessionProvider>
       <Provider store={store}>
-        <AppInitializer>
-          <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
-            <Custom>{children}</Custom>
-            <Toaster position="top-center" reverseOrder={false} />
-          </ThemeProvider>
-        </AppInitializer>
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+          <Custom>{children}</Custom>
+          <Toaster position="top-center" reverseOrder={false} />
+        </ThemeProvider>
       </Provider>
     </SessionProvider>
   );
