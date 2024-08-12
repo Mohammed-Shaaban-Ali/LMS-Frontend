@@ -1,4 +1,5 @@
 "use client";
+
 import CourseDetails from "@/app/components/courses/CourseDetails";
 
 export default function page({ params }: any) {

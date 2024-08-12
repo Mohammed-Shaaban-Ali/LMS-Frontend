@@ -13,7 +13,7 @@ export const apiSlice = createApi({
     }),
 
     loadUser: builder.query({
-      query: (data) => ({
+      query: () => ({
         url: "get-login-user",
         method: "GET",
         credentials: "include" as const,
@@ -21,7 +21,6 @@ export const apiSlice = createApi({
       async onQueryStarted(arg, { queryFulfilled, dispatch }) {
         try {
           const result = await queryFulfilled;
-          // console.log(result.data?.activationToken);
           dispatch(
             userLogin({
               token: result.data?.activationToken,

@@ -8,21 +8,34 @@ import ChangePassword from "./ChangePassword";
 
 type Props = {
   user: any;
-  data:any
+  data: any;
 };
 
-function Profile({ user,data }: Props) {
+function Profile({ user, data }: Props) {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const [scroll, setScroll] = useState<boolean>(false);
   const [active, setActive] = useState<number>(1);
   const [avatar, setAvatar] = useState<string>("");
 
   const [logout, setLogout] = useState<boolean>(false);
-  const {} = useLogoutQuery(undefined, { skip: !logout ? true : false });
+  const { error } = useLogoutQuery(undefined, { skip: !logout });
+
   const handlerLogout = async () => {
-    setLogout(true);
-    await signOut();
-    // redirect("/");
+    try {
+      // Clear cookies
+      document.cookie =
+        "access_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      document.cookie =
+        "refresh_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+
+      // Set logout state
+      setLogout(true);
+
+      // Call signOut
+      await signOut();
+    } catch (err) {
+      console.log("Error during logout:", err);
+    }
   };
 
   if (typeof window !== "undefined") {
@@ -33,7 +46,7 @@ function Profile({ user,data }: Props) {
   }
 
   return (
-    <div className="w-[85%] flex gap-2 lg:gap-16 mx-auto">
+    <div className="w-[85%] my-12 flex gap-2 lg:gap-16 mx-auto">
       <div
         className={` w-[60px] 800px:w-[280px] h-[350px] dark:bg-slate-700 bg-opacity-50   border  dark:border-[#ffffff1d] bg-white rounded-md  my-[80px] sticky shadow-sm left-[30px]  ${
           scroll ? "top-[120px]" : "top-[30px"
