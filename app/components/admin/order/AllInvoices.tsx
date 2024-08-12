@@ -5,10 +5,10 @@ import { DataGrid, GridColDef, GridRowsProp } from "@mui/x-data-grid";
 import { AiOutlineMail } from "react-icons/ai";
 import { useTheme } from "next-themes";
 import { format } from "timeago.js";
-import Loading from "@/app/Loading";
 import { useGetAllcourseQuery } from "@/redux/features/course/CourseApi";
 import { useGetOrdersQuery } from "@/redux/features/orders/OrdersApi";
 import { useGetAllUsersQuery } from "@/redux/features/user/userApi";
+import Loading from "../../Loading";
 
 interface Props {
   isDashboard?: boolean;

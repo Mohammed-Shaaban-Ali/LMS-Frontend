@@ -1,7 +1,6 @@
 "use client";
 import { useAnalyticsUserQuery } from "@/redux/features/analytics/analyticsApi";
-import React from "react";
-import Loading from "../Loading";
+
 import {
   Area,
   AreaChart,
@@ -10,6 +9,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import Loading from "../Loading";
 
 type Props = {
   isDashboard?: boolean;

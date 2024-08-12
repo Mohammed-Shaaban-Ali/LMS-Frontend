@@ -1,13 +1,8 @@
 "use client";
-import {
-  useAnalyticsOrderQuery,
-  useAnalyticsUserQuery,
-} from "@/redux/features/analytics/analyticsApi";
+import { useAnalyticsOrderQuery } from "@/redux/features/analytics/analyticsApi";
 import React from "react";
-import Loading from "../Loading";
 import {
   Area,
-  AreaChart,
   CartesianGrid,
   Legend,
   Line,
@@ -17,6 +12,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import Loading from "../Loading";
 
 type Props = {
   isDashboard?: boolean;
