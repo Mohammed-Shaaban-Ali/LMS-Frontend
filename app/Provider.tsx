@@ -1,52 +1,45 @@
 "use client";
 
-import { store } from "@/redux/store";
+import { store, useInitializeApp } from "@/redux/store";
 import { SessionProvider } from "next-auth/react";
 import { Provider } from "react-redux";
 import { ThemeProvider } from "./utils/theme-provider";
 import { Toaster } from "react-hot-toast";
 import { useLoadUserQuery } from "@/redux/api/apiSlice";
-import Header from "./components/Header";
-import { useState } from "react";
-import Footer from "./components/Route/Footer";
+
 import Loading from "./components/Loading";
 
 type Props = {
-  children: any;
+  children: React.ReactNode;
 };
 
+function AppInitializer({ children }: { children: React.ReactNode }) {
+  useInitializeApp();
+  return children;
+}
 function Providers({ children }: Props) {
-  const [open, setOpen] = useState<boolean>(false);
-  const [route, setRoute] = useState<string>("Login");
   return (
-    <Provider store={store}>
-      <SessionProvider>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <Custom>
-            <Header
-              open={open}
-              setOpen={setOpen}
-              setRoute={setRoute}
-              route={route}
-            />
-            {children}
-            <Footer />
-          </Custom>
-          <Toaster position="top-center" reverseOrder={false} />
-        </ThemeProvider>
-      </SessionProvider>
-    </Provider>
+    <SessionProvider>
+      <Provider store={store}>
+        <AppInitializer>
+          <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+            <Custom>{children}</Custom>
+            <Toaster position="top-center" reverseOrder={false} />
+          </ThemeProvider>
+        </AppInitializer>
+      </Provider>
+    </SessionProvider>
   );
 }
 
 const Custom: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const { isLoading } = useLoadUserQuery({});
+  const { isLoading, error } = useLoadUserQuery({}, { skip: false });
 
   if (isLoading) {
     return <Loading />;
   }
 
-  return children;
+  return <>{children}</>;
 };
 
 export default Providers;
