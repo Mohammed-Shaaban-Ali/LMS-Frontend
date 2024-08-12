@@ -19,16 +19,18 @@ import {
 import NavItems from "../utils/NavItems";
 
 import Avatar from "../../public/Image/avatar.webp";
+import { usePathname } from "next/navigation";
 
 type Props = {
   open: boolean;
   setOpen: (open: boolean) => void;
-  activeItem: number;
   route: string;
   setRoute: (route: string) => void;
 };
 
-const Header: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
+const Header: FC<Props> = ({ setOpen, route, open, setRoute }) => {
+  const pathname = usePathname();
+
   const [active, setActive] = useState(false);
   const [openSidebar, setOpenSidebar] = useState(false);
   const [logout, setLogout] = useState<boolean>(false);
@@ -88,16 +90,18 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
               ELearning
             </Link>
             <div className="flex items-center">
-              <NavItems activeItem={activeItem} />
+              <NavItems activeItem={pathname} />
               <ThemeSwitcher />
+
               {/* Only for mobile */}
-              <div className="800px:hidden cursor-pointer dark:text-white text-black">
+              <div className="800px:hidden cursor-pointer mr-3 dark:text-white text-black">
                 <HiOutlineMenuAlt3
                   size={25}
                   onClick={() => setOpenSidebar(true)}
                 />
               </div>
               {/* End only for mobile */}
+
               {user ? (
                 <Link href="/profile" className="w-[28px] h-[28px]">
                   <Image
@@ -105,7 +109,7 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
                     width={32}
                     height={32}
                     className={`w-[28px] h-[28px] rounded-full cursor-pointer ${
-                      activeItem ? "border border-green-500" : ""
+                      pathname === "/profile" ? "border border-green-500" : ""
                     }`}
                     alt="user photo"
                   />
@@ -128,12 +132,14 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
             id="screen"
           >
             <div className="w-[70%] fixed z-[100] h-screen bg-white dark:bg-slate-900 dark:bg-opacity-90 top-0 right-0">
-              <NavItems activeItem={activeItem} />
-              <HiOutlineUserCircle
-                className="cursor-pointer ml-5 my-2 dark:text-white text-black"
-                size={25}
-                onClick={() => setOpen(true)}
-              />
+              <NavItems openSidebar={openSidebar} activeItem={pathname} />
+              {!user && (
+                <HiOutlineUserCircle
+                  className="cursor-pointer ml-5 my-2 dark:text-white text-black"
+                  size={25}
+                  onClick={() => setOpen(true)}
+                />
+              )}
             </div>
           </div>
         )}
@@ -144,7 +150,6 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
           open={open}
           setOpen={setOpen}
           setRoute={setRoute}
-          activeItem={activeItem}
           Component={Login}
         />
       )}
@@ -153,7 +158,6 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
           open={open}
           setOpen={setOpen}
           setRoute={setRoute}
-          activeItem={activeItem}
           Component={SingUp}
         />
       )}
@@ -162,7 +166,6 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
           open={open}
           setOpen={setOpen}
           setRoute={setRoute}
-          activeItem={activeItem}
           Component={Verification}
         />
       )}
