@@ -8,8 +8,8 @@ import {
   YAxis,
   LabelList,
 } from "recharts";
-import Loading from "../Loading";
 import { useAnalyticsCoursesQuery } from "@/redux/features/analytics/analyticsApi";
+import Loading from "../Loading";
 
 type Props = {
   isDashboard?: boolean;

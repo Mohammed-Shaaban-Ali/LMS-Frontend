@@ -1,6 +1,5 @@
 "use client";
 
-import Loading from "@/app/Loading";
 import {
   useDeleteCoursMutation,
   useGetAllcourseQuery,
@@ -15,6 +14,7 @@ import { format } from "timeago.js";
 import DeleteModal from "../../DeleteModal";
 import toast from "react-hot-toast";
 import Link from "next/link";
+import Loading from "../../Loading";
 
 interface Course {
   _id: string;
@@ -47,10 +47,9 @@ const AllCourses: React.FC = () => {
       flex: 0.2,
       renderCell: (params) => (
         <div className="flex  items-center h-[100%] w-[100%] justify-center">
-
-        <Link href={`/admin/edit-course/${params.id}`} >
-          <FiEdit2 className="dark:text-white text-black" size={20} />
-        </Link>
+          <Link href={`/admin/edit-course/${params.id}`}>
+            <FiEdit2 className="dark:text-white text-black" size={20} />
+          </Link>
         </div>
       ),
     },

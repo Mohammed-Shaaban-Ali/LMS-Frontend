@@ -2,7 +2,6 @@
 
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
-import Loading from "@/app/Loading";
 import {
   useDeleteUserMutation,
   useGetAllUsersQuery,
@@ -16,6 +15,7 @@ import { AiOutlineDelete } from "react-icons/ai";
 import { MdOutlineAttachEmail } from "react-icons/md";
 import { RiAdminFill } from "react-icons/ri";
 import { ImUsers } from "react-icons/im";
+import Loading from "../../Loading";
 
 interface User {
   _id: string;
