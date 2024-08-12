@@ -4,6 +4,7 @@ import React, { FC } from "react";
 
 type Props = {
   activeItem: number;
+  openSidebar?: boolean;
 };
 
 export const navItemData = [
@@ -14,7 +15,7 @@ export const navItemData = [
   { name: "FAQ", url: "/faq" },
 ];
 
-const NavItems: FC<Props> = ({ activeItem }) => {
+const NavItems: FC<Props> = ({ activeItem, openSidebar }) => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
 
   useEffect(() => {
@@ -41,8 +42,11 @@ const NavItems: FC<Props> = ({ activeItem }) => {
           </Link>
         ))}
       </div>
-      {isMobile && (
-        <div className="800px:hidden mb-5 flex flex-col gap-8 mt-16">
+      {openSidebar && (
+        <div
+          className="800px:hidden mb-5 flex flex-col gap-8 mt-16 test"
+          // className={`hidden ${isMobile ? "800px:hidden" : "800px:flex"}`}
+        >
           {navItemData.map((item, index) => (
             <Link href={`${item.url}`} key={index}>
               <span

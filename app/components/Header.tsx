@@ -90,14 +90,16 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
             <div className="flex items-center">
               <NavItems activeItem={activeItem} />
               <ThemeSwitcher />
+
               {/* Only for mobile */}
-              <div className="800px:hidden cursor-pointer dark:text-white text-black">
+              <div className="800px:hidden cursor-pointer mr-3 dark:text-white text-black">
                 <HiOutlineMenuAlt3
                   size={25}
                   onClick={() => setOpenSidebar(true)}
                 />
               </div>
               {/* End only for mobile */}
+
               {user ? (
                 <Link href="/profile" className="w-[28px] h-[28px]">
                   <Image
@@ -128,12 +130,14 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
             id="screen"
           >
             <div className="w-[70%] fixed z-[100] h-screen bg-white dark:bg-slate-900 dark:bg-opacity-90 top-0 right-0">
-              <NavItems activeItem={activeItem} />
-              <HiOutlineUserCircle
-                className="cursor-pointer ml-5 my-2 dark:text-white text-black"
-                size={25}
-                onClick={() => setOpen(true)}
-              />
+              <NavItems openSidebar={openSidebar} activeItem={activeItem} />
+              {!user && (
+                <HiOutlineUserCircle
+                  className="cursor-pointer ml-5 my-2 dark:text-white text-black"
+                  size={25}
+                  onClick={() => setOpen(true)}
+                />
+              )}
             </div>
           </div>
         )}
