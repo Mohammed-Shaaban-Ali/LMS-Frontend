@@ -5,7 +5,6 @@ import React from "react";
 type Props = {
   open: boolean;
   setOpen: (open: boolean) => void;
-  activeItem?: any;
   Component: React.ComponentType<any>; // Correct type for Component prop
   setRoute?: (route: string) => void;
 };

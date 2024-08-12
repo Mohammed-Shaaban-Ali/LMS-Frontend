@@ -11,14 +11,13 @@ import Footer from "./components/Route/Footer";
 interface Props {}
 
 const Page: FC<Props> = () => {
-  const [open, setOpen] = useState<boolean>(false);
-  const [activeItem, setActiveItem] = useState<number>(0);
-  const [route, setRoute] = useState<string>("Login");
+  // const [open, setOpen] = useState<boolean>(false);
+  // const [activeItem, setActiveItem] = useState<number>(0);
+  // const [route, setRoute] = useState<string>("Login");
 
   // Ensure client-side logic does not cause mismatch
-  useEffect(() => {
-    // Any client-side updates or effects
-  }, []);
+  // useEffect(() => {
+  // }, []);
 
   return (
     <div>
@@ -27,18 +26,18 @@ const Page: FC<Props> = () => {
         keywords="Online Learning, E-Learning Platform, Educational Technology, Interactive Courses, Virtual Classroom, Distance Learning"
         description="Transform your learning experience with our state-of-the-art Learning Management System. Explore a variety of courses, interactive modules, and advanced features designed to enhance education and training. Join today for a seamless and effective online learning journey."
       />
-      <Header
+      {/* <Header
         open={open}
         setOpen={setOpen}
         activeItem={activeItem}
         setRoute={setRoute}
         route={route}
-      />
+      /> */}
       <Hero />
       <Courses />
       <Testimonials />
       <FAQSection />
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };
